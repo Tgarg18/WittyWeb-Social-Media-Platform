@@ -1,0 +1,39 @@
+.topbar {
+    max-height: 10vh;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid lightgrey;
+    position: sticky;
+}
+
+
+.logo {
+    height: 40px;
+    border-radius: 5px;
+}
+
+.userimage {
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+}
+
+.search{
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.input{
+    background: none;
+    border: none;
+    color: black !important;
+}
+
+.input:focus{
+    color: black !important;
+    font-weight: bold;
+    background: none;
+    outline: none;
+}
