@@ -1,9 +1,12 @@
 .topbar {
-    max-height: 10vh;
+    height: 10vh;
     align-items: center;
     padding: 10px 20px;
-    border-bottom: 1px solid lightgrey;
+    border-bottom: 1px solid var(--border);
     position: sticky;
+    top: 0;
+    background-color: var(--body_background) !important;
+    color: var(--body_color) !important;
 }
 
 
@@ -17,10 +20,11 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: center center;
+    border: 2px solid var(--body_color);
 }
 
 .search{
-    border: 1px solid lightgrey;
+    border: 1px solid var(--body_color);
     border-radius: 5px;
     padding: 5px;
 }
@@ -28,11 +32,11 @@
 .input{
     background: none;
     border: none;
-    color: black !important;
+    color: var(--body_color) !important;
 }
 
 .input:focus{
-    color: black !important;
+    color: var(--body_color) !important;
     font-weight: bold;
     background: none;
     outline: none;

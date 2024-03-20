@@ -1,0 +1,19 @@
+:root {
+    --body_background: white;
+    --body_color: #000;
+    --bgSoft: #f6f3f3;
+    --textColorSoft: #555;
+    --border: lightgray;
+  }
+  [data-theme="dark"] {
+    --body_background: black;
+    --body_color: whitesmoke;
+    --bg: #222;
+    --bgSoft: #333;
+    --textColorSoft: lightgray;
+    --border: #444;
+  }
+  
+  *{
+    transition: all 0.05s ease-in-out;
+  }

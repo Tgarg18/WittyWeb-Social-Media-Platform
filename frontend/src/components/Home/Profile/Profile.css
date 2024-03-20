@@ -1,0 +1,50 @@
+.profile {
+    background-color: var(--bgSoft) !important;
+    color: var(--text_color) !important;
+    border-left: 2px solid var(--border);
+    border-right: 2px solid var(--border);
+    min-height: 90vh;
+    max-height: max-content;
+}
+
+.image {
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    object-fit: cover;
+    height: 100px;
+    width: 100px;
+}
+
+.temp {
+    border-bottom: 2px solid var(--border);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: var(--bg);
+}
+
+.editinfo {
+    border: 2px solid var(--border);
+    width: 50%;
+    margin: 0px auto;
+}
+
+.editbutton {
+    padding: 5px 0px;
+}
+
+.bio{
+    height: 100px;
+    width: 50%;
+    margin: 0px auto;
+    overflow: scroll;
+}
+.bio::-webkit-scrollbar {
+    display: none;
+}
+.icon{
+    margin: 4px 0px;
+}
+.gender{
+    color: lightslategrey;
+}

@@ -1,0 +1,52 @@
+.image {
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    object-fit: cover;
+    height: 40px !important;
+    width: 40px !important;
+}
+
+.postcontainer {
+    padding: 10px 0px;
+    width: 90%;
+    margin: 0px auto;
+    border: 2px solid var(--border);
+    border-radius: 5px;
+}
+
+.header {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 10px;
+    gap: 5px;
+}
+
+.profile_pic {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.content{
+    padding: 5px;
+    max-height: 60vh;
+    min-height: 20vh;
+}
+
+.content img{
+    max-height: 60vh;
+    min-height: 20vh;
+    width: 50%;
+    margin: 0px auto;
+    object-fit: contain;
+    object-position: center center;
+}
+
+.footer{
+    border-top: 2px solid var(--border);
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.likes{
+    padding-left: 10px;
+}

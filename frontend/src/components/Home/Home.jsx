@@ -1,19 +1,21 @@
 import React from 'react'
 import Post from './Post/Post'
 import Topbar from './Topbar/Topbar'
-import Leftbar from './Leftbar/Leftbar'
 import { Outlet } from 'react-router-dom'
-import Rightbar from './Rightbar/Rightbar'
+import './Home.css'
+import { Container } from '@mui/material'
 
 const Home = () => {
 
   return (
     <>
-      <Topbar />
-      <div className='flex'>
-        <Leftbar />
-        <Outlet />
-        <Rightbar />
+      <div className="theme">
+        <Topbar />
+        <div className='layout'>
+          <Container className='theme'>
+            <Outlet />
+          </Container>
+        </div>
       </div>
     </>
   )
