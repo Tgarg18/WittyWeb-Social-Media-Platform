@@ -7,6 +7,7 @@
   --text_color: black;
   --border: lightgray;
   --filter: invert(0);
+  --filter2: invert(1);
 }
 [data-theme="dark"] {
   --body_background: black;
@@ -17,6 +18,7 @@
   --textColorSoft: lightgray;
   --border: #444;
   --filter: invert(1);
+  --filter2: invert(0);
 }
 
 *{
@@ -25,4 +27,10 @@
 
 .layout{
   background-color: var(--body_background);
+}
+
+@media screen and (max-width: 768px) {
+  .layout {
+    padding-top: 6vh;
+  }
 }

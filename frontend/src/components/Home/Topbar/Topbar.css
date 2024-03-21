@@ -41,3 +41,54 @@
     background: none;
     outline: none;
 }
+
+.hamburger {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .topbar {
+        position: absolute;
+        left: -42vw;
+        z-index: 2;
+        flex-direction: column;
+        min-height: 100vh !important;
+        width: 40vw !important;
+        align-items: center;
+        justify-content: flex-start !important;
+        gap: 50px !important;
+        border-right: 2px solid var(--border);
+    }
+
+    .hamburger {
+        display: flex !important;
+        padding-top: 5px;
+        width: max-content;
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        background-color: var(--body_color);
+    }
+    .hamburger img{
+        width: 35px;
+        padding: 3px;
+        filter: var(--filter2);
+
+    }
+
+    .menu {
+        gap: 15px !important;
+        flex-direction: column;
+    }
+    .exit{
+        transition: all 0.5s linear;
+        transform: translateX(-42vw);
+    }
+    .entry{
+        transition: all 0.5s linear;
+        transform: translateX(0vw);
+    }
+    .input{
+        width: 90% !important;
+    }
+}

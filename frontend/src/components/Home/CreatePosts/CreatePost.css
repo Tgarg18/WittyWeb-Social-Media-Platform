@@ -71,3 +71,13 @@ input[type=file]::file-selector-button:hover {
     background: #0d45a5;
     font-weight: bold;
 }
+
+@media screen and (max-width: 768px) {
+    .createpost {
+        min-height: 94vh;
+    }
+
+    .temp {
+        border-top: 2px solid var(--border);
+    }
+}

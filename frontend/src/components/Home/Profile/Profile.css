@@ -4,7 +4,6 @@
     border-left: 2px solid var(--border);
     border-right: 2px solid var(--border);
     min-height: 90vh;
-    max-height: max-content;
 }
 
 .image {
@@ -47,4 +46,13 @@
 }
 .gender{
     color: lightslategrey;
+}
+
+@media screen and (max-width: 768px) {
+    .profile {
+        min-height: 94vh;
+    }   
+    .temp {
+        border-top: 2px solid var(--border);
+    }
 }

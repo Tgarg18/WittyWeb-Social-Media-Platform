@@ -21,7 +21,8 @@ const CreatePost = () => {
             <h5>Nancy</h5>
             <textarea className='text' placeholder='Write your caption here...'></textarea>
           </div>
-          <img src={imageicon} alt="" id='output' />
+          {/* <img src={imageicon} alt="" id='output' /> */}
+          <img src={`https://cdn4.iconfinder.com/data/icons/evil-icons-user-interface/64/picture-512.png`} alt="" id='output' />
           <input type="file" accept='image/*' onChange={(e) => loadFile(e)} className='fileinput' />
         </div>
         <NavLink to={`/`}>

@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <>
       <div className="theme">
-        <Topbar />
+          <Topbar />
         <div className='layout'>
           <Container className='theme'>
             <Outlet />
