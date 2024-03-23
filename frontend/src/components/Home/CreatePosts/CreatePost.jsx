@@ -13,6 +13,7 @@ const CreatePost = () => {
   const notifyError = () => toast.error('Something went wrong while posting!')
   const notifyFields = () => toast.error('Either post image or caption!')
   const notifySuccess = () => toast.success('Posted Successfully!')
+  const notifysignin = () => toast.info('Please sign in first!')
 
   function postDetails() {
     const data = new FormData()
@@ -38,6 +39,11 @@ const CreatePost = () => {
           .then(data => {
             if (data.error == "Please add all the fields") {
               notifyFields()
+              return
+            }
+            if(data.error == "You must be logged in"){
+              notifysignin()
+              navigate("/signin")
               return
             }
             else {

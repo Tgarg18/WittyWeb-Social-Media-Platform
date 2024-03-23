@@ -1,10 +1,6 @@
 import React from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined';
-import WbSunnyOutlinedIcon from '@mui/icons-material/WbSunnyOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { NavLink } from "react-router-dom";
@@ -13,28 +9,41 @@ import './Topbar.css'
 import DarkMode from '../../DarkMode/DarkMode';
 import hamburger from '../../navbar/svg/hamburger.svg';
 import { useState } from 'react';
+import { toast } from "react-toastify";
 
 
 const Topbar = () => {
   const [sidebar, setSidebar] = useState(true)
 
-    const change = () => {
-        setSidebar(!sidebar)
-        if (sidebar) {
-            document.body.querySelector('.topbar').style.left = "0"
-            document.body.querySelector('.topbar').classList.add('entry')
-            document.body.querySelector('.topbar').classList.remove('exit')
-            document.body.querySelector('.hamburger').style.left = "43vw"
-            document.body.querySelector('.hamburger').classList.add('entry')
-            document.body.querySelector('.hamburger').classList.remove('exit')
-        }
-        else {
-            document.body.querySelector('.topbar').style.left = "-42vw"
-            document.body.querySelector('.topbar').classList.remove('entry')
-            document.body.querySelector('.topbar').classList.add('exit')
-            document.body.querySelector('.hamburger').style.left = "0vw"
-        }
+  const notifyLogout = () => toast.success('Logged Out Successfully!')
+
+  const loginStatus = () => {
+    const token = localStorage.getItem("jwt")
+    if (token) {
+      return true
     }
+    else {
+      return false
+    }
+  }
+
+  const change = () => {
+    setSidebar(!sidebar)
+    if (sidebar) {
+      document.body.querySelector('.topbar').style.left = "0"
+      document.body.querySelector('.topbar').classList.add('entry')
+      document.body.querySelector('.topbar').classList.remove('exit')
+      document.body.querySelector('.hamburger').style.left = "43vw"
+      document.body.querySelector('.hamburger').classList.add('entry')
+      document.body.querySelector('.hamburger').classList.remove('exit')
+    }
+    else {
+      document.body.querySelector('.topbar').style.left = "-42vw"
+      document.body.querySelector('.topbar').classList.remove('entry')
+      document.body.querySelector('.topbar').classList.add('exit')
+      document.body.querySelector('.hamburger').style.left = "0vw"
+    }
+  }
   return (
     <>
       <div className='topbar flex justify-between'>
@@ -53,8 +62,7 @@ const Topbar = () => {
           </div>
         </div>
         <div className="menu right flex items-center gap-4">
-          {/* <PersonOutlinedIcon /> */}
-          <div className='flex items-center gap-1'>
+          {(loginStatus()) ? <><div className='flex items-center gap-1'>
             <NavLink to='/createpost' style={{ textDecoration: 'none' }}>
               <AddCircleOutlineRoundedIcon />
             </NavLink>
@@ -62,16 +70,30 @@ const Topbar = () => {
               <h3>Create Post</h3>
             </NavLink>
           </div>
-          <EmailOutlinedIcon />
-          <NotificationsOutlinedIcon />
-          <div className="user flex items-center gap-2">
-            <NavLink to='/profile' style={{ textDecoration: 'none' }}>
-              <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' />
-            </NavLink>
-            <NavLink to='/profile' style={{ textDecoration: 'none' }}>
-              <span className='font-bold'>Nancy</span>
-            </NavLink>
-          </div>
+            <div className="user flex items-center gap-2">
+              <NavLink to='/signin' style={{ textDecoration: 'none' }} className={`px-5`} onClick={() => {
+                localStorage.removeItem("jwt")
+                notifyLogout()
+              }}>
+                <span className='font-bold'>Logout</span>
+              </NavLink>
+              <NavLink to='/profile' style={{ textDecoration: 'none' }}>
+                <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' />
+              </NavLink>
+              <NavLink to='/profile' style={{ textDecoration: 'none' }}>
+                <span className='font-bold'>Nancy</span>
+              </NavLink>
+            </div></> : <><div className='flex items-center gap-1'>
+              <NavLink to='/signup' style={{ textDecoration: 'none' }}>
+                <h3>Sign Up</h3>
+              </NavLink>
+            </div>
+            <div className="user flex items-center gap-2">
+              <NavLink to='/signin' style={{ textDecoration: 'none' }}>
+                <h3>Sign In</h3>
+              </NavLink>
+            </div></>}
+
         </div>
       </div>
       <button value={sidebar} onClick={change} className='hamburger mx-1'>
