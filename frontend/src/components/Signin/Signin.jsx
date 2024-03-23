@@ -4,7 +4,7 @@ import logo from '../../assets/logo.gif'
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from '../navbar/Navbar';
-const Signup = () => {
+const Signin = () => {
 
   const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
@@ -20,7 +20,7 @@ const Signup = () => {
   const notifySuccess = () => toast.success('Sign In Successfully!')
 
   const checkLoginData = () => {
-    console.log(userName, email, passsword);
+    // console.log(userName, email, passsword);
     fetch("http://localhost:5000/signin", {
       method: "POST",
       headers: {
@@ -35,8 +35,10 @@ const Signup = () => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        if (data.Status == "Sign In Successfully") {
+        if (data.user) {
           notifySuccess()
+          // console.log(data.token);
+          localStorage.setItem('jwt', data.token)
           navigate('/')
         }
         else if (data.error == "Invalid username") {
@@ -92,4 +94,4 @@ const Signup = () => {
   )
 }
 
-export default Signup
+export default Signin

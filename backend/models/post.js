@@ -8,11 +8,11 @@ const postSchema = new mongoose.Schema({
     },
     image:{
         type: String,
-        default: "no photo"
+        // default: "no photo"
     },
     caption:{
         type: String,
-        required: true
+        // required: true
     }
 });
 mongoose.model("POST", postSchema)

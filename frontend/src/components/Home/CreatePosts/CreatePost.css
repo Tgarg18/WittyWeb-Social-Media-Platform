@@ -7,6 +7,10 @@
     max-height: max-content;
 }
 
+.preview{
+    filter: unset !important;
+}
+
 .temp {
     border-bottom: 2px solid var(--border);
     padding-top: 15px;
