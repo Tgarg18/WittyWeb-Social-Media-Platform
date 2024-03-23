@@ -6,7 +6,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
-const Post = ({ url, username, content }) => {
+const Post = ({ url, username, caption, content }) => {
   return (
     <>
       <div className='postcontainer flex flex-col'>
@@ -19,7 +19,8 @@ const Post = ({ url, username, content }) => {
           </div>
         </div>
         <div className="content">
-          {content}
+          {caption}
+          <img src={content} alt="" className='postimage' />
         </div>
         <div className='footer flex gap-5'>
           <div className='likes flex flex-col justify-center items-center'>

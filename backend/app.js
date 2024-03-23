@@ -1,15 +1,21 @@
 const express = require("express");
-const mongourl = require("./key")
+const {mongourl} = require("./key")
 const mongoose = require("mongoose");
 const app = express()
 const port = 5000
 const cors = require('cors');
+
 app.use(cors());
 
 require("./models/model")
+require("./models/post")
+
 app.use(express.json())
 app.use(require('./routes/auth'))
+app.use(require('./routes/createPost'))
 
+
+// connect to the database
 mongoose.connect(mongourl)
 
 mongoose.connection.on('connected',  ()=> {

@@ -9,7 +9,7 @@
 
 .postcontainer {
     padding: 10px 0px;
-    width: 90%;
+    width: 80%;
     margin: 0px auto;
     border: 2px solid var(--border);
     border-radius: 5px;
@@ -32,11 +32,12 @@
     min-height: 20vh;
 }
 
+
+
 .content img{
-    max-height: 60vh;
-    min-height: 20vh;
+    max-height: 40vh;
     width: 50%;
-    margin: 0px auto;
+    margin: 20px auto;
     object-fit: contain;
     object-position: center center;
 }
@@ -49,4 +50,10 @@
 
 .likes{
     padding-left: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .postcontainer{
+        width: 90%;
+    }
 }
