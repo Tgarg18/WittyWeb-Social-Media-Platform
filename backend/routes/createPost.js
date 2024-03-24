@@ -27,7 +27,7 @@ router.post("/createPost", requireLogin, (req, res) => {
 router.get("/", (req, res) => {
     POST.find()
         .populate("postedby", "_id userName name")
-        .then(posts => {res.json(posts)})
+        .then(posts => { res.json(posts) })
         .catch(err => console.log(err))
 })
 
@@ -88,6 +88,28 @@ router.put("/undislike", requireLogin, (req, res) => {
     }).populate("postedby", "_id userName")
         .then(result => {
             res.json(result);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.post('/getlikedby', requireLogin, (req, res) => {
+    POST.find({ _id: req.body.postId })
+        .populate("likes", "_id userName")
+        .then(result => {
+            res.json(result[0].likes);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.post('/getdislikedby', requireLogin, (req, res) => {
+    POST.find({ _id: req.body.postId })
+        .populate("dislikes", "_id userName")
+        .then(result => {
+            res.json(result[0].dislikes);
         })
         .catch(err => {
             res.status(422).json({ error: err });

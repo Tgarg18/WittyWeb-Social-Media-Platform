@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './Post.css'
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
@@ -7,13 +7,19 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
+import Likes from './Likes/Likes';
+import Dislikes from './Dislikes/Dislikes';
+import { LoginContext } from '../../../Context/LoginContext';
 
 
-const Post = ({ url, username, caption, content, post_id, liked, disliked, count_likes, count_dislikes }) => {
+const Post = ({ url, username, caption, content, post_id, liked, disliked, count_likes, count_dislikes, data }) => {
   const [like, setLike] = useState(liked)
   const [dislike, setDislike] = useState(disliked)
   const [c_like, setC_like] = useState(count_likes)
   const [c_dislike, setC_dislike] = useState(count_dislikes)
+
+  const [showLikes, setShowLikes] = useState(false)
+  const [showDislikes, setShowDislikes] = useState(false)
 
   const navigate = useNavigate();
 
@@ -116,6 +122,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
 
   return (
     <>
+    <LoginContext.Provider value={{showLikes, setShowLikes, showDislikes, setShowDislikes}}>
       <div className='postcontainer flex flex-col'>
         <div className='header flex items-center'>
           <div className='profile_pic flex'>
@@ -131,7 +138,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
         </div>
         <div className='footer flex gap-5'>
           <div className='likes flex flex-col justify-center items-center'>
-            <div>{c_like}</div>
+            <div className='cursor-pointer' onClick={() => setShowLikes(true)}>{c_like}</div>
             {(like) ? <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
               <ThumbUpAltIcon fontSize='medium' />
             </div>
@@ -140,7 +147,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
               </div>}
           </div>
           <div className='Dislikes flex flex-col justify-center items-center'>
-            <div>{c_dislike}</div>
+            <div onClick={() => setShowDislikes(true)} className='cursor-pointer'>{c_dislike}</div>
             {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
               <ThumbDownAltIcon fontSize='medium' />
             </div>
@@ -155,6 +162,12 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
           <div className='share'></div>
         </div>
       </div>
+      {/* {showLikes && <LogoutBox setModalOpen={setModalOpen}></LogoutBox>} */}
+      {/* {(showLikes) ? <Likes/> : null}
+      {(showDislikes) ? <Dislikes/> : null} */}
+      {showLikes && <Likes post_id={post_id} setShowLikes={setShowLikes} />}
+      {showDislikes && <Dislikes post_id={post_id} setShowDislikes={setShowDislikes}/>}
+      </LoginContext.Provider>
     </>
   )
 }
