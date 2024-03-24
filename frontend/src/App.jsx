@@ -3,32 +3,26 @@ import './App.css'
 import Home from './components/Home/Home'
 import Signup from './components/Signup/Signup'
 import Signin from './components/Signin/Signin'
+import LogoutBox from './components/Home/Topbar/LogoutBox'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Profile from './components/Home/Profile/Profile'
 import Post from './components/Home/Post/Post'
 import PostsPage from './components/Home/PostsPage/PostsPage'
 import CreatePost from './components/Home/CreatePosts/CreatePost'
+import { useState } from 'react'
+import { LoginContext } from './Context/LoginContext'
 
 function App() {
-
-  // const currentUser = true;
-
-  // const ProtectedRoute = (Children) => {
-  //   if (!currentUser)
-  //     return <Navigate to="/signin" />
-  //   return Children
-  // }
-
+  const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
       <BrowserRouter>
+      <LoginContext.Provider value={{modalOpen, setModalOpen}}>
         <div className="flex flex-col app">
           <Routes>
             <Route path="/" element={
-              // <ProtectedRoute>
                 <Home />
-              // </ProtectedRoute>
             }>
               <Route path='' element={<PostsPage/>} />
               <Route path='profile' element={<Profile />} />
@@ -39,6 +33,8 @@ function App() {
           </Routes>
           <ToastContainer />
         </div>
+        {modalOpen && <LogoutBox setModalOpen={setModalOpen}></LogoutBox>}
+        </LoginContext.Provider>
       </BrowserRouter>
     </>
   )

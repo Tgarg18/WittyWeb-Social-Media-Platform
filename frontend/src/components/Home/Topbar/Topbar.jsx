@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -9,13 +9,13 @@ import './Topbar.css'
 import DarkMode from '../../DarkMode/DarkMode';
 import hamburger from '../../navbar/svg/hamburger.svg';
 import { useState } from 'react';
-import { toast } from "react-toastify";
+import { LoginContext } from '../../../Context/LoginContext';
 
 
 const Topbar = () => {
   const [sidebar, setSidebar] = useState(true)
+  const { setModalOpen } = useContext(LoginContext)
 
-  const notifyLogout = () => toast.success('Logged Out Successfully!')
 
   const loginStatus = () => {
     const token = localStorage.getItem("jwt")
@@ -71,18 +71,17 @@ const Topbar = () => {
             </NavLink>
           </div>
             <div className="user flex items-center gap-2">
-              <NavLink to='/signin' style={{ textDecoration: 'none' }} className={`px-5`} onClick={() => {
-                localStorage.removeItem("jwt")
-                notifyLogout()
-              }}>
+              <NavLink style={{ textDecoration: 'none' }} className={`logout_button`} onClick={() => setModalOpen(true)}>
                 <span className='font-bold'>Logout</span>
               </NavLink>
+              <div className='userprofile'>
               <NavLink to='/profile' style={{ textDecoration: 'none' }}>
                 <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' />
               </NavLink>
               <NavLink to='/profile' style={{ textDecoration: 'none' }}>
                 <span className='font-bold'>Nancy</span>
               </NavLink>
+              </div>
             </div></> : <><div className='flex items-center gap-1'>
               <NavLink to='/signup' style={{ textDecoration: 'none' }}>
                 <h3>Sign Up</h3>
@@ -95,7 +94,7 @@ const Topbar = () => {
             </div></>}
 
         </div>
-      </div>
+      </div >
       <button value={sidebar} onClick={change} className='hamburger mx-1'>
         <img src={hamburger} alt="" id='temp' />
       </button>

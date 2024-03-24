@@ -31,4 +31,11 @@ router.get("/", (req, res) => {
     .catch(err => console.log(err))
 })
 
+router.get("/profile",requireLogin, (req, res) => {
+    POST.find({postedby: req.user._id})
+    .populate("postedby", "_id userName name")
+    .then(posts => res.json(posts))
+    .catch(err => console.log(err))
+})
+
 module.exports = router

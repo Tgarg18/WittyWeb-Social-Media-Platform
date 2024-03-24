@@ -6,7 +6,7 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
-const Post = ({ url, username, caption, content }) => {
+const Post = ({ url, username, caption, content}) => {
   return (
     <>
       <div className='postcontainer flex flex-col'>

@@ -1,7 +1,23 @@
 import React from 'react'
 import './Profile.css'
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import { useState, useEffect } from 'react';
+import Post from '../Post/Post';
 const Profile = () => {
+  const [pic, setPic] = useState([])
+  useEffect(() => {
+    fetch("http://localhost:5000/profile",
+      {
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        }
+      })
+      .then(res => res.json())
+      .then(result => {
+        setPic(result)
+      })
+  }, [])
+
   return (
     <>
       <div className="profile text-center flex flex-col gap-8">
@@ -28,7 +44,17 @@ const Profile = () => {
         </div>
         <div className="bio">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae minima in nisi possimus, tempore sint blanditiis perspiciatis nihil error alias optio aut doloremque sunt mollitia nesciunt natus eum laudantium quae.</div>
         <div className="editinfo">
-          <button className='editbutton'>Edit Info</button>
+          <button className='editbutton'>Edit Profile</button>
+        </div>
+        <div className="post_bar">
+          <div className=' text-xl font-bold'>My Posts</div>
+        </div>
+        <div className='post-container gap-4'>
+            {pic.map((data,index)=>{
+              return (
+                <Post url={`https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} key={index} />
+              )
+            })}
         </div>
       </div>
     </>

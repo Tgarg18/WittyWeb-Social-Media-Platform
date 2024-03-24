@@ -4,6 +4,7 @@
     border-left: 2px solid var(--border);
     border-right: 2px solid var(--border);
     min-height: 90vh;
+    padding-bottom: 30px;
 }
 
 .image {
@@ -46,6 +47,20 @@
 }
 .gender{
     color: lightslategrey;
+}
+
+.post_bar {
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    padding: 15px 0px;
+    width: 100%;
+    background-color: var(--bg);
+}
+
+
+.post-container{
+    display: flex;
+    flex-direction: column;
 }
 
 @media screen and (max-width: 768px) {
