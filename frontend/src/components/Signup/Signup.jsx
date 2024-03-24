@@ -77,7 +77,7 @@ const Signup = () => {
     <Navbar/>
       <div className="signup flex items-center justify-evenly">
         <div className='form-info rounded-xl flex flex-col items-center'>
-          <img src={logo} alt="" className='side w-2/4 object-contain rounded-2xl mb-8' />
+          <img src={logo} alt="" className='side w-2/4 object-contain rounded-2xl mb-8' draggable="false" />
           <p className='para text-center my-1'>Sign Up to WittyWeb to</p>
           <p className='para text-center my-1'>Connect with your Friends</p>
           <p className='para text-center my-1'>and Share your Thoughts!</p>
@@ -105,7 +105,7 @@ const Signup = () => {
             </button>
           </div>
           <div className='move'>
-            <NavLink to="/signin" className={`font-semibold text-center hover:underline text-white`}><p>Already have an account? Sign In</p></NavLink>
+            <NavLink to="/signin" className={`font-semibold text-center hover:underline text-white`} draggable="false"><p>Already have an account? Sign In</p></NavLink>
           </div>
         </div>
       </div>

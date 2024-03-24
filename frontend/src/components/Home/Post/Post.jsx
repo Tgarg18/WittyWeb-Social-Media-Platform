@@ -1,39 +1,156 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Post.css'
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
+import { useNavigate } from 'react-router-dom';
+import { toast } from "react-toastify";
 
-const Post = ({ url, username, caption, content}) => {
+
+const Post = ({ url, username, caption, content, post_id, liked, disliked, count_likes, count_dislikes }) => {
+  const [like, setLike] = useState(liked)
+  const [dislike, setDislike] = useState(disliked)
+  const [c_like, setC_like] = useState(count_likes)
+  const [c_dislike, setC_dislike] = useState(count_dislikes)
+
+  const navigate = useNavigate();
+
+  const notifysignin = () => toast.info('Please sign in first!')
+
+  const likePost = (post_id) => {
+    if (dislike) {
+      removeDislikePost(post_id)
+    }
+    // setLike(true)
+    fetch("http://localhost:5000/like", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        postId: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setLike(true)
+        setC_like(c_like + 1)
+      })
+  }
+  const dislikePost = (post_id) => {
+    if (like) {
+      removeLikePost(post_id)
+    }
+    // setDislike(true)
+    fetch("http://localhost:5000/dislike", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        postId: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setDislike(true)
+        setC_dislike(c_dislike + 1)
+      })
+  }
+  const removeLikePost = (post_id) => {
+    // setLike(false)
+    fetch("http://localhost:5000/unlike", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        postId: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setLike(false)
+        setC_like(c_like - 1)
+      })
+  }
+  const removeDislikePost = (post_id) => {
+    // setDislike(false)
+    fetch("http://localhost:5000/undislike", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        postId: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setDislike(false)
+        setC_dislike(c_dislike - 1)
+      })
+  }
+
   return (
     <>
       <div className='postcontainer flex flex-col'>
         <div className='header flex items-center'>
           <div className='profile_pic flex'>
-            <img src={url} alt="" className='image' />
+            <img src={url} alt="" className='image' draggable="false" />
           </div>
           <div className='username'>
             {username}
           </div>
         </div>
         <div className="content">
-          {caption}
-          <img src={content} alt="" className='postimage' />
+          <div className='text-left'>{caption}</div>
+          <img src={content} alt="" className='postimage' onDoubleClick={(e) => likePost(post_id)} draggable="false" />
         </div>
         <div className='footer flex gap-5'>
           <div className='likes flex flex-col justify-center items-center'>
-            <div>10</div>
-            {(false)?<ThumbUpAltIcon fontSize='small' />:<ThumbUpOffAltIcon fontSize='small' />}
+            <div>{c_like}</div>
+            {(like) ? <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
+              <ThumbUpAltIcon fontSize='medium' />
+            </div>
+              : <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
+                <ThumbUpOffAltIcon fontSize='medium' />
+              </div>}
           </div>
           <div className='Dislikes flex flex-col justify-center items-center'>
-            <div>10</div>
-            {(false)?<ThumbDownAltIcon fontSize='small' />:<ThumbDownOffAltIcon fontSize='small' />}
+            <div>{c_dislike}</div>
+            {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
+              <ThumbDownAltIcon fontSize='medium' />
+            </div>
+              : <div className='cursor-pointer' onClick={(e) => dislikePost(post_id)}>
+                <ThumbDownOffAltIcon fontSize='medium' />
+              </div>}
           </div>
           <div className='comments flex flex-col justify-center items-center'>
             <div>20</div>
-            <ChatBubbleOutlineOutlinedIcon fontSize='small' />
+            <ChatBubbleOutlineOutlinedIcon fontSize='medium' />
           </div>
           <div className='share'></div>
         </div>

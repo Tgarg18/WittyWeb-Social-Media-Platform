@@ -39,6 +39,7 @@ const Signin = () => {
           notifySuccess()
           // console.log(data.token);
           localStorage.setItem('jwt', data.token)
+          localStorage.setItem('user',JSON.stringify(data.user))
           navigate('/')
         }
         else if (data.error == "Invalid username") {
@@ -64,7 +65,7 @@ const Signin = () => {
     <Navbar/>
       <div className="signin flex justify-evenly items-center">
         <div className='form-info rounded-xl flex flex-col items-center'>
-          <img src={logo} alt="" className='side w-2/4 object-contain rounded-2xl mb-8' />
+          <img src={logo} alt="" className='side w-2/4 object-contain rounded-2xl mb-8' draggable="false" />
           <p className='para text-center my-1'>Welcome Back to WittyWeb</p>
           <p className='para text-center my-1'>Was Waiting for you</p>
           <p className='para text-center my-1'>Sign In Now!</p>
@@ -86,7 +87,7 @@ const Signin = () => {
             </button>
           </div>
           <div>
-            <NavLink to="/signup" className={`font-semibold text-center hover:underline text-white`}><p>Don't have an account? Sign Up</p></NavLink>
+            <NavLink to="/signup" className={`font-semibold text-center hover:underline text-white`} draggable="false"><p>Don't have an account? Sign Up</p></NavLink>
           </div>
         </div>
       </div>

@@ -5,14 +5,14 @@ const requireLogin = require("../middlewares/requireLogin");
 const POST = mongoose.model("POST");
 
 
-router.post("/createPost",requireLogin, (req, res) => {
+router.post("/createPost", requireLogin, (req, res) => {
     const { caption, content_pic } = req.body;
     if (!content_pic && !caption) {
         return res.status(422).json({ error: "Please add all the fields" })
     }
     console.log(req.user);
     console.log(content_pic);
-    const post = new POST ({
+    const post = new POST({
         postedby: req.user,
         caption: caption,
         image: content_pic
@@ -22,20 +22,76 @@ router.post("/createPost",requireLogin, (req, res) => {
     }).catch(err => {
         console.log(err);
     })
-}) 
+})
 
 router.get("/", (req, res) => {
     POST.find()
-    .populate("postedby", "_id userName name")
-    .then(posts => res.json(posts))
-    .catch(err => console.log(err))
+        .populate("postedby", "_id userName name")
+        .then(posts => {res.json(posts)})
+        .catch(err => console.log(err))
 })
 
-router.get("/profile",requireLogin, (req, res) => {
-    POST.find({postedby: req.user._id})
-    .populate("postedby", "_id userName name")
-    .then(posts => res.json(posts))
-    .catch(err => console.log(err))
+router.get("/profile", requireLogin, (req, res) => {
+    POST.find({ postedby: req.user._id })
+        .populate("postedby", "_id userName name")
+        .then(posts => res.json(posts))
+        .catch(err => console.log(err))
+})
+
+router.put("/like", requireLogin, (req, res) => {
+    POST.findByIdAndUpdate(req.body.postId, {
+        $push: { likes: req.user._id }
+    }, {
+        new: true
+    }).populate("postedby", "_id userName")
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.put("/unlike", requireLogin, (req, res) => {
+    POST.findByIdAndUpdate(req.body.postId, {
+        $pull: { likes: req.user._id }
+    }, {
+        new: true
+    }).populate("postedby", "_id userName")
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.put("/dislike", requireLogin, (req, res) => {
+    POST.findByIdAndUpdate(req.body.postId, {
+        $push: { dislikes: req.user._id }
+    }, {
+        new: true
+    }).populate("postedby", "_id userName")
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.put("/undislike", requireLogin, (req, res) => {
+    POST.findByIdAndUpdate(req.body.postId, {
+        $pull: { dislikes: req.user._id }
+    }, {
+        new: true
+    }).populate("postedby", "_id userName")
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
 })
 
 module.exports = router

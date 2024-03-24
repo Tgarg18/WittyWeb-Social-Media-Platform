@@ -29,22 +29,19 @@ const Navbar = () => {
         <>
             <header className='flex w-full bg-wittyweb_dark justify-around nav gap-96 '>
                 <div>
-                    <img src={logo} alt="" className='logo' />
+                    <img src={logo} alt="" className='logo' draggable="false" />
                 </div>
                 <ul className='menu flex text-white gap-28 p-1 justify-end items-center'>
                     <NavLink to="/signup" className={({isActive}) => 
                         `no-underline p-3 hover:bg-slate-800 hover:rounded-lg ${isActive?'border-b-2 border-white font-bold':''}`
-                    }><li>Sign Up</li></NavLink>
+                    } draggable="false"><li>Sign Up</li></NavLink>
                     <NavLink to="/signin" className={({isActive}) => 
                         `no-underline p-3 hover:bg-slate-800 hover:rounded-lg ${isActive?'border-b-2 border-white font-bold':''}`
-                    }><li>Sign In</li></NavLink>
-                    {/* <NavLink to="/profile" className={({isActive}) => 
-                        `no-underline p-3 hover:bg-slate-800 hover:rounded-lg ${isActive?'border-b-2 border-white font-bold':''}`
-                    }><li>Profile</li></NavLink> */}
+                    } draggable="false"><li>Sign In</li></NavLink>
                 </ul>
             </header>
             <button value={sidebar} onClick={change} className='hamburger'>
-                <img src={hamburger} alt="" id='temp' />
+                <img src={hamburger} alt="" id='temp' draggable="false" />
             </button>
         </>
     )

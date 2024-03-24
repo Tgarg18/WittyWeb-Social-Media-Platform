@@ -4,15 +4,20 @@ const postSchema = new mongoose.Schema({
     postedby:{
         type: ObjectId,
         ref: "USER",
-        // required: true
     },
     image:{
         type: String,
-        // default: "no photo"
     },
     caption:{
         type: String,
-        // required: true
-    }
+    },
+    likes: [{
+        type: ObjectId,
+        ref: "USER"
+    }],
+    dislikes: [{
+        type: ObjectId,
+        ref: "USER"
+    }]
 });
 mongoose.model("POST", postSchema)

@@ -77,11 +77,11 @@ const CreatePost = () => {
         <h1 className='temp text-3xl font-bold'>Create Post</h1>
         <div className='main-div flex flex-col '>
           <div className="card-pic flex gap-2 items-center justify-center">
-            <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' />
+            <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' draggable="false" />
             <h5>Nancy</h5>
             <textarea className='text' value={caption} onChange={(e) => setCaption(e.target.value)} placeholder='Write your caption here...'></textarea>
           </div>
-          <img src={imageicon} alt="" id='output' className='preview' />
+          <img src={imageicon} alt="" id='output' className='preview' draggable="false" />
           <input type="file" accept='image/*' onChange={(e) => {
             loadFile(e)
             setImage(e.target.files[0])
