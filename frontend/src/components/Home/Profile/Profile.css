@@ -12,8 +12,15 @@
     border: 2px solid var(--border);
     overflow: hidden;
     object-fit: cover;
-    height: 100px;
-    width: 100px;
+}
+
+.myimage {
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    object-fit: cover;
+    height: 150px !important;
+    width: 150px !important;
 }
 
 .temp {

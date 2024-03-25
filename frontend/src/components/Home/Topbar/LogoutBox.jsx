@@ -9,9 +9,10 @@ export default function LogoutBox({ setModalOpen }) {
     const notifyLogout = () => toast.success('Logged Out Successfully!')
 
     return (
-        <div className="darkBg" onClick={() => setModalOpen(false)}>
+        <>
+            <div className="darkBg" onClick={() => setModalOpen(false)}></div>
             <div className="centered">
-                <div className="modal">
+                <div className="modal1">
                     <div className="modalHeader">
                         <h1 className="heading font-bold">Confirm</h1>
                     </div>
@@ -40,8 +41,9 @@ export default function LogoutBox({ setModalOpen }) {
                             </button>
                         </div>
                     </div>
+
                 </div>
             </div>
-        </div>
+        </>
     );
 }

@@ -144,4 +144,18 @@ router.post('/showcomments', requireLogin, (req, res) => {
         })
 })
 
+router.delete("/deletepost/:postId", requireLogin, (req, res) => {
+    console.log(req.params.postId);
+    POST.findOneAndDelete({ _id: req.params.postId })
+        .then(result => {
+            console.log(result);
+            return res.json({ message: "Successfully deleted" });
+        })
+        .catch(err => {
+            console.log(result);
+            res.status(422).json({ error: "err1" });
+        })
+}
+)
+
 module.exports = router

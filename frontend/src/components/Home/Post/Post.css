@@ -44,10 +44,13 @@
     align-items: center;
 }
 
-.header {
-    border-bottom: 2px solid var(--border);
+.left_header {
     padding-bottom: 10px;
     gap: 5px;
+}
+
+.header{
+    border-bottom: 2px solid var(--border);
 }
 
 .profile_pic {

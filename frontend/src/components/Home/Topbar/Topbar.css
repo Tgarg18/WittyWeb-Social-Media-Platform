@@ -4,6 +4,7 @@
     padding: 10px 20px;
     border-bottom: 1px solid var(--border);
     position: sticky;
+    z-index: 1;
     top: 0;
     background-color: var(--body_background) !important;
     color: var(--body_color) !important;
@@ -73,6 +74,7 @@
         position: absolute;
         top: 5px;
         left: 5px;
+        z-index: 1;
         background-color: var(--body_color);
     }
     .hamburger img{

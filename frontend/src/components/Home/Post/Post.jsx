@@ -11,9 +11,10 @@ import Dislikes from './Dislikes/Dislikes';
 import { LoginContext } from '../../../Context/LoginContext';
 import { RiCloseLine } from "react-icons/ri";
 import { toast } from "react-toastify";
+import DeleteIcon from '@mui/icons-material/Delete';
+import DeletePost from './DeletePost/DeletePost';
 
-
-const Post = ({ url, username, caption, content, post_id, liked, disliked, count_comments, count_likes, count_dislikes, data }) => {
+const Post = ({ url, username, caption, content, post_id, liked, disliked, count_comments, count_likes, count_dislikes, data, deleteOption }) => {
   const [like, setLike] = useState(liked)
   const [dislike, setDislike] = useState(disliked)
   const [c_like, setC_like] = useState(count_likes)
@@ -23,6 +24,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
   const [showLikes, setShowLikes] = useState(false)
   const [showDislikes, setShowDislikes] = useState(false)
   const [showComments, setShowComments] = useState(false)
+  const [showDeleteBox, setShowDeleteBox] = useState(false)
 
   const [comment, setComment] = useState("")
   const [commentList, setCommentList] = useState([])
@@ -173,15 +175,21 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
 
   return (
     <>
-      <LoginContext.Provider value={{ showLikes, setShowLikes, showDislikes, setShowDislikes }}>
+      <LoginContext.Provider value={{ showLikes, setShowLikes, showDislikes, setShowDislikes,showDeleteBox,setShowDeleteBox }}>
         <div className='postcontainer flex flex-col'>
-          <div className='header flex items-center'>
-            <div className='profile_pic flex'>
-              <img src={url} alt="" className='image' draggable="false" />
+          <div className='header flex items-center justify-between'>
+            <div className='left_header flex items-center'>
+              <div className='profile_pic flex'>
+                <img src={url} alt="" className='image' draggable="false" />
+              </div>
+              <div className='username'>
+                {username}
+              </div>
             </div>
-            <div className='username'>
-              {username}
-            </div>
+            {(deleteOption) ? <div className="right_header flex items-center px-4 pb-2 cursor-pointer" onClick={()=> setShowDeleteBox(true)} >
+              <DeleteIcon fontSize='medium' className='hover:text-3xl' />
+            </div> :
+              null}
           </div>
           <div className="content">
             <div className='text-left'>{caption}</div>
@@ -212,9 +220,9 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                 setShowComments(true)
               }} className='cursor-pointer text-lg'>{c_comments}</div>
               <div className='cursor-pointer' onClick={() => {
-                  getComments(post_id)
-                  setShowComments(true)
-                }}>
+                getComments(post_id)
+                setShowComments(true)
+              }}>
                 <ChatBubbleOutlineOutlinedIcon fontSize='medium' />
               </div>
             </div>
@@ -226,6 +234,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
         </div>
         {showLikes && <Likes post_id={post_id} setShowLikes={setShowLikes} />}
         {showDislikes && <Dislikes post_id={post_id} setShowDislikes={setShowDislikes} />}
+        {showDeleteBox && <DeletePost post_id={post_id} setShowDeleteBox={setShowDeleteBox}/>}
       </LoginContext.Provider>
       {/* show comment */}
       {(showComments) ?
@@ -254,9 +263,9 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                   <div className="comm">
                     {commentList.map((item, index) => {
                       return (
-                        <div key={index} className='comment flex gap-6 items-center'>
-                          <span className="commenter font-bold">{`@${item.postedby.userName}`}</span>
-                          <span className="comment-text">{item.comment}</span>
+                        <div key={index} className='comment flex gap-6 items-center justify-start'>
+                          <span className="commenter font-bold w-1/4 overflow-hidden">{`@${item.postedby.userName}`}</span>
+                          <span className="comment-text w-3/4">{item.comment}</span>
                         </div>
                       )
                     }

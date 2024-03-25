@@ -22,11 +22,13 @@ const Profile = () => {
     <>
       <div className="profile text-center flex flex-col gap-8">
         <h1 className='temp text-3xl font-bold'>My Profile</h1>
-        <div className='flex flex-col items-center'>
-          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='image' draggable="false" />
-          <h1 className='name text-2xl '>Nancy</h1>
-          <h1 className='username text-xl'>@nancy_2727</h1>
-          <h2 className='gender text-lg'>She/Her</h2>
+        <div className='flex items-center justify-center gap-6'>
+            <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='myimage' draggable="false" />
+          <div className='flex flex-col items-center justify-center'>
+            <h1 className='name text-2xl '>Nancy</h1>
+            <h1 className='username text-xl'>@nancy_2727</h1>
+            <h2 className='gender text-lg'>She/Her</h2>
+          </div>
         </div>
         <div className="follow flex gap-11 justify-center items-center">
           <div className='followers flex flex-col'>
@@ -50,11 +52,11 @@ const Profile = () => {
           <div className=' text-xl font-bold'>My Posts</div>
         </div>
         <div className='post-container gap-4'>
-            {pic.map((data)=>{
-              return (
-                <Post url={`https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} />
-              )
-            })}
+          {pic.map((data) => {
+            return (
+              <Post url={`https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={true} />
+            )
+          })}
         </div>
       </div>
     </>
