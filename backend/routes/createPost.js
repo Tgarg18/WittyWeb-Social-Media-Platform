@@ -116,4 +116,32 @@ router.post('/getdislikedby', requireLogin, (req, res) => {
         })
 })
 
+router.put('/makecomment', requireLogin, (req, res) => {
+    const comment = {
+        comment: req.body.text,
+        postedby: req.user._id
+    }
+    POST.findByIdAndUpdate(req.body.postId, {
+        $push: { comments: comment }
+    }, {
+        new: true
+    }).populate("comments.postedby", "_id userName")
+        .then(result => {
+            console.log(result.comments);
+            res.json(result.comments);
+        }).catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
+router.post('/showcomments', requireLogin, (req, res) => {
+    POST.find({ _id: req.body.postId })
+        .populate("comments.postedby", "_id userName")
+        .then(result => {
+            res.json(result[0].comments);
+        }).catch(err => {
+            res.status(422).json({ error: err });
+        })
+})
+
 module.exports = router

@@ -24,7 +24,8 @@ const Likes = ({ setShowLikes, post_id }) => {
   }, [])
 
   return (
-    <div className="darkBg" onClick={() => setShowLikes(false)}>
+    <>
+      <div className="darkBg" onClick={() => setShowLikes(false)}></div>
       <div className="centered">
         <div className="modal">
           <div className="modalHeader">
@@ -46,7 +47,7 @@ const Likes = ({ setShowLikes, post_id }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

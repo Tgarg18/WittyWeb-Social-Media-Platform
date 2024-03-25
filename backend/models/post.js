@@ -15,6 +15,13 @@ const postSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "USER"
     }],
+    comments: [{
+        comment:{type:String},
+        postedby:{
+            type: ObjectId,
+            ref: "USER"
+        }
+    }],
     dislikes: [{
         type: ObjectId,
         ref: "USER"
