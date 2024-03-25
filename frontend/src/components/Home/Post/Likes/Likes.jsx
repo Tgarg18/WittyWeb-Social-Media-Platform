@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './Likes.css'
 import { RiCloseLine } from "react-icons/ri";
+import { NavLink } from 'react-router-dom';
 
 
 const Likes = ({ setShowLikes, post_id }) => {
@@ -40,7 +41,16 @@ const Likes = ({ setShowLikes, post_id }) => {
             {likedData.map((item) => {
               return (
                 <div className="likedBy" key={item._id}>
-                  <p className="font-bold text-left">{item.userName}</p>
+                  <p className="font-bold text-left">
+                    {item._id == JSON.parse(localStorage.getItem("user"))._id ?
+                      <NavLink draggable="false" to={`/profile`}>
+                        {item.userName}
+                      </NavLink>
+                      :
+                      <NavLink draggable="false" to={`/profile/${item._id}`}>
+                        {item.userName}
+                      </NavLink>}
+                  </p>
                 </div>
               )
             })}

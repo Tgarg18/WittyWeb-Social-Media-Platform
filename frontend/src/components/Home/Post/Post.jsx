@@ -179,16 +179,30 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
         <div className='postcontainer flex flex-col'>
           <div className='header flex items-center justify-between'>
             <div className='left_header flex items-center'>
-              <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+              {(data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
                 <div className='profile_pic flex'>
                   <img src={url} alt="" className='image' draggable="false" />
                 </div>
               </NavLink>
-              <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                :
+                <NavLink to={`/profile`} draggable="false">
+                  <div className='profile_pic flex'>
+                    <img src={url} alt="" className='image' draggable="false" />
+                  </div>
+                </NavLink>
+              }
+              {(data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
                 <div className='username'>
                   {username}
                 </div>
               </NavLink>
+                :
+                <NavLink to={`/profile`} draggable="false">
+                  <div className='username'>
+                    {username}
+                  </div>
+                </NavLink>
+              }
             </div>
             {(deleteOption) ? <div className="right_header flex items-center px-4 pb-2 cursor-pointer" onClick={() => setShowDeleteBox(true)} >
               <DeleteIcon fontSize='medium' className='hover:text-3xl' />
@@ -258,10 +272,20 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
               <div className="details flex flex-col">
                 <div className='header flex items-center'>
                   <div className='profile_pic flex'>
-                    <img src={url} alt="" className='image' draggable="false" />
+                    {(data.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
+                      <NavLink to={`/profile`} draggable="false">
+                        <img src={url} alt="" className='image' draggable="false" />
+                      </NavLink>
+                      :
+                      <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                        <img src={url} alt="" className='image' draggable="false" />
+                      </NavLink>}
                   </div>
                   <div className='username'>
-                    {username}
+                    {(data.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
+                      <NavLink draggable="false" to={`/profile`}>{username}</NavLink>
+                      :
+                      <NavLink draggable="false" to={`/profile/${data.postedby._id}`}>{username}</NavLink>}
                   </div>
                 </div>
                 <div className="comment-section">
@@ -270,10 +294,15 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                       return (
                         <div key={index} className='comment flex gap-6 items-center justify-start'>
                           <span className="commenter font-bold w-1/4 overflow-hidden">
-                            <NavLink to={`/profile/${item.postedby._id}`} draggable="false">
-                            {`@${item.postedby.userName}`}
-                            </NavLink>
-                            </span>
+                            {(item.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
+                              <NavLink to={`/profile`} draggable="false">
+                                {`@${item.postedby.userName}`}
+                              </NavLink>
+                              :
+                              <NavLink to={`/profile/${item.postedby._id}`} draggable="false">
+                                {`@${item.postedby.userName}`}
+                              </NavLink>}
+                          </span>
                           <span className="comment-text w-3/4">{item.comment}</span>
                         </div>
                       )
