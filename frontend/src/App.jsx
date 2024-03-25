@@ -12,28 +12,30 @@ import PostsPage from './components/Home/PostsPage/PostsPage'
 import CreatePost from './components/Home/CreatePosts/CreatePost'
 import { useState } from 'react'
 import { LoginContext } from './Context/LoginContext'
+import OtherProfile from './components/Home/Profile/OtherProfile'
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
   return (
     <>
       <BrowserRouter>
-      <LoginContext.Provider value={{modalOpen, setModalOpen}}>
-        <div className="flex flex-col app">
-          <Routes>
-            <Route path="/" element={
+        <LoginContext.Provider value={{ modalOpen, setModalOpen }}>
+          <div className="flex flex-col app">
+            <Routes>
+              <Route path="/" element={
                 <Home />
-            }>
-              <Route path='' element={<PostsPage/>} />
-              <Route path='profile' element={<Profile />} />
-              <Route path='createpost' element={<CreatePost/>} />
-            </Route>
-            <Route path="/signup" element={<Signup />}></Route>
-            <Route path="/signin" element={<Signin />}></Route>
-          </Routes>
-          <ToastContainer />
-        </div>
-        {modalOpen && <LogoutBox setModalOpen={setModalOpen}></LogoutBox>}
+              }>
+                <Route path='' element={<PostsPage />} />
+                <Route exact path='profile' element={<Profile />} />
+                <Route path='createpost' element={<CreatePost />} />
+                <Route path='profile/:userid' element={<OtherProfile/>} />
+              </Route>
+              <Route path="/signup" element={<Signup />}></Route>
+              <Route path="/signin" element={<Signin />}></Route>
+            </Routes>
+            <ToastContainer />
+          </div>
+          {modalOpen && <LogoutBox setModalOpen={setModalOpen}></LogoutBox>}
         </LoginContext.Provider>
       </BrowserRouter>
     </>

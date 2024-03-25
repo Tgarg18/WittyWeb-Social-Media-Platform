@@ -4,6 +4,7 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { useState, useEffect } from 'react';
 import Post from '../Post/Post';
 const Profile = () => {
+  const gender = "male";
   const [pic, setPic] = useState([])
   useEffect(() => {
     fetch("http://localhost:5000/profile",
@@ -23,11 +24,13 @@ const Profile = () => {
       <div className="profile text-center flex flex-col gap-8">
         <h1 className='temp text-3xl font-bold'>My Profile</h1>
         <div className='flex items-center justify-center gap-6'>
-            <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='myimage' draggable="false" />
+          <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='myimage' draggable="false" />
           <div className='flex flex-col items-center justify-center'>
-            <h1 className='name text-2xl '>Nancy</h1>
-            <h1 className='username text-xl'>@nancy_2727</h1>
-            <h2 className='gender text-lg'>She/Her</h2>
+            <h1 className='name text-3xl '>{JSON.parse(localStorage.getItem("user")).name}</h1>
+            <h1 className='username text-xl'>@{JSON.parse(localStorage.getItem("user")).userName}</h1>
+            {(gender == "male") ? <h2 className='gender text-lg'>He/Him</h2>
+              :
+              (gender == "female") ? <h2 className='gender text-lg'>She/Her</h2> : null}
           </div>
         </div>
         <div className="follow flex gap-11 justify-center items-center">

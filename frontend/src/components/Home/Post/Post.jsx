@@ -5,7 +5,7 @@ import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import { LoginContext } from '../../../Context/LoginContext';
@@ -175,18 +175,22 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
 
   return (
     <>
-      <LoginContext.Provider value={{ showLikes, setShowLikes, showDislikes, setShowDislikes,showDeleteBox,setShowDeleteBox }}>
+      <LoginContext.Provider value={{ showLikes, setShowLikes, showDislikes, setShowDislikes, showDeleteBox, setShowDeleteBox }}>
         <div className='postcontainer flex flex-col'>
           <div className='header flex items-center justify-between'>
             <div className='left_header flex items-center'>
-              <div className='profile_pic flex'>
-                <img src={url} alt="" className='image' draggable="false" />
-              </div>
-              <div className='username'>
-                {username}
-              </div>
+              <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                <div className='profile_pic flex'>
+                  <img src={url} alt="" className='image' draggable="false" />
+                </div>
+              </NavLink>
+              <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                <div className='username'>
+                  {username}
+                </div>
+              </NavLink>
             </div>
-            {(deleteOption) ? <div className="right_header flex items-center px-4 pb-2 cursor-pointer" onClick={()=> setShowDeleteBox(true)} >
+            {(deleteOption) ? <div className="right_header flex items-center px-4 pb-2 cursor-pointer" onClick={() => setShowDeleteBox(true)} >
               <DeleteIcon fontSize='medium' className='hover:text-3xl' />
             </div> :
               null}
@@ -234,7 +238,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
         </div>
         {showLikes && <Likes post_id={post_id} setShowLikes={setShowLikes} />}
         {showDislikes && <Dislikes post_id={post_id} setShowDislikes={setShowDislikes} />}
-        {showDeleteBox && <DeletePost post_id={post_id} setShowDeleteBox={setShowDeleteBox}/>}
+        {showDeleteBox && <DeletePost post_id={post_id} setShowDeleteBox={setShowDeleteBox} />}
       </LoginContext.Provider>
       {/* show comment */}
       {(showComments) ?
@@ -248,6 +252,7 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                 </button>
               </div>
               <div className="postPic">
+                <div className='text-left text-wrap overflow-scroll'>{caption}</div>
                 <img src={content} alt="" draggable="false" className='postimage' />
               </div>
               <div className="details flex flex-col">
@@ -264,7 +269,11 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                     {commentList.map((item, index) => {
                       return (
                         <div key={index} className='comment flex gap-6 items-center justify-start'>
-                          <span className="commenter font-bold w-1/4 overflow-hidden">{`@${item.postedby.userName}`}</span>
+                          <span className="commenter font-bold w-1/4 overflow-hidden">
+                            <NavLink to={`/profile/${item.postedby._id}`} draggable="false">
+                            {`@${item.postedby.userName}`}
+                            </NavLink>
+                            </span>
                           <span className="comment-text w-3/4">{item.comment}</span>
                         </div>
                       )

@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { NavLink } from "react-router-dom";
+import { NavLink, json } from "react-router-dom";
 import logo from '../../../assets/logo.gif'
 import './Topbar.css'
 import DarkMode from '../../DarkMode/DarkMode';
@@ -77,7 +77,7 @@ const Topbar = () => {
                 <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' draggable="false" />
               </NavLink>
               <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
-                <span className='font-bold'>Nancy</span>
+                <span className='font-bold'>{JSON.parse(localStorage.getItem("user")).name}</span>
               </NavLink>
               </div>
             </div></> : <><div className='flex items-center gap-1'>
