@@ -12,7 +12,6 @@ export default function DeletePost({ setShowDeleteBox, post_id }) {
     const navigate = useNavigate();
 
     const DeletePost = (post_id) => {
-        console.log(post_id);
         fetch(`http://localhost:5000/deletepost/${post_id}`, {
             method: "delete",
             headers: {

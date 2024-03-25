@@ -21,6 +21,14 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
   const [c_dislike, setC_dislike] = useState(count_dislikes)
   const [c_comments, setC_comments] = useState(count_comments)
 
+  const temp1 = localStorage.getItem("jwt")
+  let status = () => {
+    if (temp1) {
+      return true
+    }
+    return false
+  }
+
   const [showLikes, setShowLikes] = useState(false)
   const [showDislikes, setShowDislikes] = useState(false)
   const [showComments, setShowComments] = useState(false)
@@ -69,6 +77,11 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
       })
     }).then(res => res.json())
       .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
         setCommentList(result)
       })
   }
@@ -179,25 +192,40 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
         <div className='postcontainer flex flex-col'>
           <div className='header flex items-center justify-between'>
             <div className='left_header flex items-center'>
-              {(data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
-                <div className='profile_pic flex'>
-                  <img src={url} alt="" className='image' draggable="false" />
-                </div>
-              </NavLink>
+              {(status()) ?
+                ((data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                  <div className='profile_pic flex'>
+                    <img src={url} alt="" className='image' draggable="false" />
+                  </div>
+                </NavLink>
+                  :
+                  <NavLink to={`/profile`} draggable="false">
+                    <div className='profile_pic flex'>
+                      <img src={url} alt="" className='image' draggable="false" />
+                    </div>
+                  </NavLink>)
                 :
-                <NavLink to={`/profile`} draggable="false">
+                <NavLink to={`/signin`} onClick={() => notifysignin()} draggable="false">
                   <div className='profile_pic flex'>
                     <img src={url} alt="" className='image' draggable="false" />
                   </div>
                 </NavLink>
               }
-              {(data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
-                <div className='username'>
-                  {username}
-                </div>
-              </NavLink>
+              {(status()) ?
+                ((data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ?
+                  <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                    <div className='username'>
+                      {username}
+                    </div>
+                  </NavLink>
+                  :
+                  <NavLink to={`/profile`} draggable="false">
+                    <div className='username'>
+                      {username}
+                    </div>
+                  </NavLink>)
                 :
-                <NavLink to={`/profile`} draggable="false">
+                <NavLink to={`/signin`} onClick={() => notifysignin()} draggable="false">
                   <div className='username'>
                     {username}
                   </div>
@@ -215,16 +243,29 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
           </div>
           <div className='footer flex gap-5'>
             <div className='likes flex flex-col justify-center items-center'>
-              <div className='cursor-pointer text-lg' onClick={() => setShowLikes(true)}>{c_like}</div>
-              {(like) ? <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
-                <ThumbUpAltIcon fontSize='medium' />
-              </div>
-                : <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
+              {(status()) ?
+                <div className='cursor-pointer text-lg' onClick={() => setShowLikes(true)}>{c_like}</div>
+                :
+                <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
+                  <div className='text-lg'>{c_like}</div>
+                </NavLink>}
+              {(like) ?
+                <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
+                  <ThumbUpAltIcon fontSize='medium' />
+                </div>
+                :
+                <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
                   <ThumbUpOffAltIcon fontSize='medium' />
                 </div>}
             </div>
             <div className='Dislikes flex flex-col justify-center items-center'>
-              <div onClick={() => setShowDislikes(true)} className='cursor-pointer text-lg'>{c_dislike}</div>
+              {(status()) ?
+                <div onClick={() => setShowDislikes(true)} className='cursor-pointer text-lg'>{c_dislike}</div>
+                :
+                <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
+                  <div className='cursor-pointer text-lg'>{c_dislike}</div>
+                </NavLink>
+              }
               {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
                 <ThumbDownAltIcon fontSize='medium' />
               </div>

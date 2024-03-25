@@ -8,8 +8,6 @@ const { jwt_secret } = require("../key");
 const requireLogin = require("../middlewares/requireLogin");
 
 router.post("/signup", (req, res) => {
-    // console.log(req.body.name);
-    // res.send(req.body.name);
     const userNameRegex = new RegExp("^[A-Za-z][A-Za-z0-9_]{7,29}$")
     const nameRegex = new RegExp("^[a-zA-Z]+(?:\s[a-zA-Z]+)*$")
     const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
@@ -31,13 +29,11 @@ router.post("/signup", (req, res) => {
     } else {
         USER.findOne({ email: email }).then((savedUser) => {
             if (savedUser) {
-                // console.log(savedUser);
                 return res.status(422).json({ error: "User already exists with that email. Try loging in" });
             }
             else {
                 USER.findOne({ userName: userName }).then((savedUser) => {
                     if (savedUser) {
-                        // console.log(savedUser);
                         return res.status(422).json({ error: "Username already exists. Try a different username." });
                     }
                     else {

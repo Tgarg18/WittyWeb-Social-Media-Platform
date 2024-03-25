@@ -3,6 +3,7 @@ const router = express.Router()
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const POST = mongoose.model("POST");
+const USER = mongoose.model("USER");
 
 
 router.post("/createPost", requireLogin, (req, res) => {
@@ -10,8 +11,6 @@ router.post("/createPost", requireLogin, (req, res) => {
     if (!content_pic && !caption) {
         return res.status(422).json({ error: "Please add all the fields" })
     }
-    console.log(req.user);
-    console.log(content_pic);
     const post = new POST({
         postedby: req.user,
         caption: caption,
@@ -34,7 +33,16 @@ router.get("/", (req, res) => {
 router.get("/profile", requireLogin, (req, res) => {
     POST.find({ postedby: req.user._id })
         .populate("postedby", "_id userName name")
-        .then(posts => res.json(posts))
+        .then(posts => {
+            USER.findOne({ _id: req.user._id })
+                .select("-password")
+                .select("-cpassword")
+                .then(user => {
+                    const followers = user.followers
+                    const following = user.following
+                    res.json({ posts, followers,following })
+                })
+        })
         .catch(err => console.log(err))
 })
 
@@ -127,7 +135,6 @@ router.put('/makecomment', requireLogin, (req, res) => {
         new: true
     }).populate("comments.postedby", "_id userName")
         .then(result => {
-            console.log(result.comments);
             res.json(result.comments);
         }).catch(err => {
             res.status(422).json({ error: err });
@@ -145,14 +152,11 @@ router.post('/showcomments', requireLogin, (req, res) => {
 })
 
 router.delete("/deletepost/:postId", requireLogin, (req, res) => {
-    console.log(req.params.postId);
     POST.findOneAndDelete({ _id: req.params.postId })
         .then(result => {
-            console.log(result);
             return res.json({ message: "Successfully deleted" });
         })
         .catch(err => {
-            console.log(result);
             res.status(422).json({ error: "err1" });
         })
 }

@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types
 
 const userSchema = mongoose.Schema({
     name: {
@@ -21,7 +22,27 @@ const userSchema = mongoose.Schema({
     cpassword: {
         type: String,
         required: true
-    }
+    },
+    gender: {
+        type: String,
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
+    phone_number: {
+        type: String,
+    },
+    followers: [{
+        type: ObjectId,
+        ref: "USER"
+    }],
+    following: [{
+        type: ObjectId,
+        ref: "USER"    
+    }]
+
+
 });
 
 mongoose.model('USER', userSchema);

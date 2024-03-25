@@ -20,7 +20,6 @@ const Signin = () => {
   const notifySuccess = () => toast.success('Sign In Successfully!')
 
   const checkLoginData = () => {
-    // console.log(userName, email, passsword);
     fetch("http://localhost:5000/signin", {
       method: "POST",
       headers: {
@@ -34,10 +33,8 @@ const Signin = () => {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data)
         if (data.user) {
           notifySuccess()
-          // console.log(data.token);
           localStorage.setItem('jwt', data.token)
           localStorage.setItem('user',JSON.stringify(data.user))
           navigate('/')

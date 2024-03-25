@@ -31,13 +31,13 @@
 }
 
 .editinfo {
-    border: 2px solid var(--border);
+    border: none;
     width: 50%;
     margin: 0px auto;
 }
 
-.editbutton {
-    padding: 5px 0px;
+.editbutton2 {
+    padding: 10px 0px;
 }
 
 .bio{

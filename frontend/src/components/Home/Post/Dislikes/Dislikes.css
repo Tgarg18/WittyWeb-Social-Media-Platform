@@ -1,7 +1,7 @@
 .darkBg {
     position: fixed !important;
     background-color: rgba(43, 43, 43, 0.607) !important;
-    width: 100%;
+    width: 100vw;
     height: 105vh !important;
     z-index: 30;
     top: 49% !important;

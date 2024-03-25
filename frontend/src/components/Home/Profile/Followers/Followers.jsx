@@ -1,45 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import './Dislikes.css'
 import { RiCloseLine } from "react-icons/ri";
 import { NavLink } from 'react-router-dom';
 
-const Dislikes = ({ post_id, setShowDislikes }) => {
-  const [dislikedData, setDislikedData] = useState([])
+
+const Followers = ({ setShowFollowers, userid }) => {
+
+  const [follower_array, setFollower_array] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:5000/getdislikedby", {
+    fetch("http://localhost:5000/getfollowdata",{
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${localStorage.getItem("jwt")}`
       },
       body: JSON.stringify({
-        postId: post_id
+        _id: userid
       })
+    }).then(res => res.json())
+    .then(result => {
+      setFollower_array(result.followerList)
     })
-      .then(res => res.json())
-      .then(data => {
-        setDislikedData(data)
-      })
   }, [])
+
   return (
-    <div className="darkBg" onClick={() => setShowDislikes(false)}>
+    <>
+      <div className="darkBg" onClick={() => setShowFollowers(false)}></div>
       <div className="centered">
         <div className="modal">
           <div className="modalHeader">
-            <h1 className="heading font-bold">Disliked by: </h1>
+            <h1 className="heading font-bold">Followers: {follower_array.length}</h1>
           </div>
           <div className="closeBtn">
-            <button onClick={() => setShowDislikes(false)}>
+            <button onClick={() => setShowLikes(false)}>
               <RiCloseLine></RiCloseLine>
             </button>
           </div>
           <div className="modalContent">
-            {dislikedData.map((item) => {
+            {follower_array.map((item) => {
               return (
                 <div className="likedBy" key={item._id}>
                   <p className="font-bold text-left">
-                    {(item._id == JSON.parse(localStorage.getItem("user"))._id) ?
+                    {item._id == JSON.parse(localStorage.getItem("user"))._id ?
                       <NavLink draggable="false" to={`/profile`}>
                         {item.userName}
                       </NavLink>
@@ -54,8 +56,8 @@ const Dislikes = ({ post_id, setShowDislikes }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
-export default Dislikes
+export default Followers

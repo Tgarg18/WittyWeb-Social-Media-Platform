@@ -20,7 +20,7 @@ app.use(require("./routes/user"))
 mongoose.connect(mongourl)
 
 mongoose.connection.on('connected',  ()=> {
-    console.log('Mongoose default connection open to ' + mongourl);
+    console.log('MongoDB Connected');
 })
 mongoose.connection.on('error', () => {
     console.log("Not connected");

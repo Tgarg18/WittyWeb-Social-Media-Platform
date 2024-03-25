@@ -33,7 +33,6 @@ const Signup = () => {
       notifyInvalidEmail()
       return
     }
-    // console.log(name, userName, email, password, cpassword);
     fetch("http://localhost:5000/signup", {
       method: "POST",
       headers: {
@@ -49,7 +48,6 @@ const Signup = () => {
     })
       .then(res => res.json())
       .then(data => {
-        // console.log(data);
         if (data.Status == "Sign Up Successful") {
           notifySuccess()
           navigate('/signin')
