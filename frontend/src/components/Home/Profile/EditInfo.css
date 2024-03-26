@@ -15,9 +15,12 @@
 .myimage2{
     filter: unset !important;
     border-radius: 50%;
-    height: 150px;
+    height: 150px !important;
     width: 150px;
-    overflow: hidden;
-    object-position: center center;
-    object-fit: contain;
+    overflow: hidden !important;
+    object-position: unset !important;
+    object-fit: unset !important;
+}
+.qwerty{
+    padding: 0;
 }

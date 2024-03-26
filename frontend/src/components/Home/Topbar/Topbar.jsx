@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
@@ -9,13 +9,13 @@ import DarkMode from '../../DarkMode/DarkMode';
 import hamburger from '../../navbar/svg/hamburger.svg';
 import { useState } from 'react';
 import { LoginContext } from '../../../Context/LoginContext';
+import usericon from '../../../assets/usericon.png'
 
 
 const Topbar = () => {
   const [sidebar, setSidebar] = useState(true)
   const { setModalOpen } = useContext(LoginContext)
-
-
+  const [profilephototopbar, setProfilephototopbar] = useState("")
   const loginStatus = () => {
     const token = localStorage.getItem("jwt")
     if (token) {
@@ -25,6 +25,22 @@ const Topbar = () => {
       return false
     }
   }
+
+  useEffect(() => {
+    fetch("http://localhost:5000/getuserdata",{
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        userid: JSON.parse(localStorage.getItem("user"))._id
+      })
+    }).then(res => res.json())
+    .then(data => {
+      setProfilephototopbar(data[0].profile_photo)
+    })
+  },[])
 
   const change = () => {
     setSidebar(!sidebar)
@@ -73,12 +89,16 @@ const Topbar = () => {
                 <span className='font-bold'>Logout</span>
               </NavLink>
               <div className='userprofile'>
-              <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
-                <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' draggable="false" />
-              </NavLink>
-              <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
-                <span className='font-bold'>{JSON.parse(localStorage.getItem("user")).name}</span>
-              </NavLink>
+                <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
+                  {(profilephototopbar &&  profilephototopbar!= "") ?
+                    <img src={profilephototopbar} alt="" className='userimage h-10 w-10' draggable="false" />
+                    :
+                    <img src={usericon} alt="" className='userimage h-10 w-10' draggable="false" />
+                  }
+                </NavLink>
+                <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
+                  <span className='font-bold'>{JSON.parse(localStorage.getItem("user")).name}</span>
+                </NavLink>
               </div>
             </div></> : <><div className='flex items-center gap-1'>
               <NavLink to='/signup' style={{ textDecoration: 'none' }} draggable="false">

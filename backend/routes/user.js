@@ -10,8 +10,8 @@ router.get("/user/:userid", requireLogin, (req, res) => {
     USER.findOne({ _id: req.params.userid })
         .select("-password")
         .select("-cpassword")
-        .populate("followers", "_id userName name")
-        .populate("following", "_id userName name")
+        .populate("followers", "_id userName name profile_photo")
+        .populate("following", "_id userName name profile_photo")
         .then(user => {
             if (!user) {
                 return res.status(422).json({ error: "user not found" })
@@ -21,7 +21,10 @@ router.get("/user/:userid", requireLogin, (req, res) => {
                 .then(post => {
                     const followers = user.followers
                     const following = user.following
-                    res.json({ user, post, followers,following })
+                    const profilephoto = user.profile_photo
+                    const profilegender = user.gender
+                    const profilebio = user.bio
+                    res.json({ user, post, followers,following,profilephoto,profilegender,profilebio })
                 })
                 .catch(err => {
                     res.status(422).json({ error: err })
@@ -85,8 +88,8 @@ router.put("/unfollow", requireLogin, (req, res) => {
 
 router.post("/getfollowdata",requireLogin,(req,res)=>{
     USER.findById(req.body._id)
-    .populate("following","_id userName name")
-    .populate("followers","_id userName name")
+    .populate("following","_id userName name profile_photo")
+    .populate("followers","_id userName name profile_photo")
     .select("-password")
     .select("-cpassword")
     .then(result=>{

@@ -25,8 +25,10 @@ router.post("/createPost", requireLogin, (req, res) => {
 
 router.get("/", (req, res) => {
     POST.find()
-        .populate("postedby", "_id userName name")
-        .then(posts => { res.json(posts) })
+        .populate("postedby", "_id userName name profile_photo")
+        .then(posts => {
+            res.json(posts)
+        } )
         .catch(err => console.log(err))
 })
 
@@ -40,7 +42,10 @@ router.get("/profile", requireLogin, (req, res) => {
                 .then(user => {
                     const followers = user.followers
                     const following = user.following
-                    res.json({ posts, followers,following })
+                    const profilephoto = user.profile_photo
+                    const profilegender = user.gender
+                    const profilebio = user.bio
+                    res.json({ posts, followers,following, profilephoto,profilegender,profilebio })
                 })
         })
         .catch(err => {
@@ -106,7 +111,7 @@ router.put("/undislike", requireLogin, (req, res) => {
 
 router.post('/getlikedby', requireLogin, (req, res) => {
     POST.find({ _id: req.body.postId })
-        .populate("likes", "_id userName")
+        .populate("likes", "_id userName profile_photo")
         .then(result => {
             res.json(result[0].likes);
         })
@@ -117,7 +122,7 @@ router.post('/getlikedby', requireLogin, (req, res) => {
 
 router.post('/getdislikedby', requireLogin, (req, res) => {
     POST.find({ _id: req.body.postId })
-        .populate("dislikes", "_id userName")
+        .populate("dislikes", "_id userName profile_photo")
         .then(result => {
             res.json(result[0].dislikes);
         })
@@ -145,7 +150,7 @@ router.put('/makecomment', requireLogin, (req, res) => {
 
 router.post('/showcomments', requireLogin, (req, res) => {
     POST.find({ _id: req.body.postId })
-        .populate("comments.postedby", "_id userName")
+        .populate("comments.postedby", "_id userName profile_photo")
         .then(result => {
             res.json(result[0].comments);
         }).catch(err => {

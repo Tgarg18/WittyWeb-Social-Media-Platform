@@ -135,4 +135,17 @@ router.post("/getuserdata", requireLogin, (req, res) => {
         })
 })
 
+router.post("/removephoto",requireLogin,(req,res) => {
+    USER.findOne({_id: req.body.userid})
+    .then(user => {
+        user.profile_photo = ""
+        user.save()
+        .then(()=>{
+            res.json({Status:"Profile Photo Removed Successfully"})
+        }).catch(error => {
+            res.json(error)
+        })
+    })
+})
+
 module.exports = router;

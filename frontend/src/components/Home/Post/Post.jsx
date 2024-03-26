@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Post.css'
 import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
@@ -13,6 +13,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeletePost from './DeletePost/DeletePost';
+import usericon from '../../../assets/usericon.png'
 
 const Post = ({ url, username, caption, content, post_id, liked, disliked, count_comments, count_likes, count_dislikes, data, deleteOption }) => {
   const [like, setLike] = useState(liked)
@@ -20,8 +21,13 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
   const [c_like, setC_like] = useState(count_likes)
   const [c_dislike, setC_dislike] = useState(count_dislikes)
   const [c_comments, setC_comments] = useState(count_comments)
-
+  const [postbyprofilephotostatus, setPostbyprofilephotostatus] = useState(false)
   const temp1 = localStorage.getItem("jwt")
+
+  useEffect(() => {
+    if (url && url != "")
+      setPostbyprofilephotostatus(true)
+  }, [])
   let status = () => {
     if (temp1) {
       return true
@@ -193,21 +199,34 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
           <div className='header flex items-center justify-between'>
             <div className='left_header flex items-center'>
               {(status()) ?
-                ((data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ? <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
-                  <div className='profile_pic flex'>
-                    <img src={url} alt="" className='image' draggable="false" />
-                  </div>
-                </NavLink>
+                ((data.postedby._id != JSON.parse(localStorage.getItem("user"))._id) ?
+                  <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
+                    <div className='profile_pic flex'>
+                      {(url && url != "") ?
+                        <img src={url} alt="" className='image' draggable="false" />
+                        :
+                        <img src={usericon} alt="" className='image' draggable="false" />
+                      }
+                    </div>
+                  </NavLink>
                   :
                   <NavLink to={`/profile`} draggable="false">
                     <div className='profile_pic flex'>
-                      <img src={url} alt="" className='image' draggable="false" />
+                      {(url && url != "") ?
+                        <img src={url} alt="" className='image' draggable="false" />
+                        :
+                        <img src={usericon} alt="" className='image' draggable="false" />
+                      }
                     </div>
                   </NavLink>)
                 :
                 <NavLink to={`/signin`} onClick={() => notifysignin()} draggable="false">
                   <div className='profile_pic flex'>
-                    <img src={url} alt="" className='image' draggable="false" />
+                    {(url && url != "") ?
+                      <img src={url} alt="" className='image' draggable="false" />
+                      :
+                      <img src={usericon} alt="" className='image' draggable="false" />
+                    }
                   </div>
                 </NavLink>
               }
@@ -315,11 +334,19 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                   <div className='profile_pic flex'>
                     {(data.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
                       <NavLink to={`/profile`} draggable="false">
-                        <img src={url} alt="" className='image' draggable="false" />
+                        {(url && url != "") ?
+                          <img src={url} alt="" className='image' draggable="false" />
+                          :
+                          <img src={usericon} alt="" className='image' draggable="false" />
+                        }
                       </NavLink>
                       :
                       <NavLink to={`/profile/${data.postedby._id}`} draggable="false">
-                        <img src={url} alt="" className='image' draggable="false" />
+                        {(url && url != "") ?
+                          <img src={url} alt="" className='image' draggable="false" />
+                          :
+                          <img src={usericon} alt="" className='image' draggable="false" />
+                        }
                       </NavLink>}
                   </div>
                   <div className='username'>
@@ -334,7 +361,23 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                     {commentList.map((item, index) => {
                       return (
                         <div key={index} className='comment flex gap-6 items-center justify-start'>
-                          <span className="commenter font-bold w-1/4 overflow-hidden">
+                          <span className="commenter font-bold w-2/5 overflow-hidden flex items-center gap-2">
+                            {(item.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
+                              <NavLink to={`/profile`} draggable="false">
+                                {(item.postedby.profile_photo && item.postedby.profile_photo != "") ?
+                                  <img src={item.postedby.profile_photo} alt="" className='h-5 rounded-full w-5' />
+                                  :
+                                  <img src={usericon} alt="" className='h-5 rounded-full w-5 border border-gray-400' />
+                                }
+                              </NavLink>
+                              :
+                              <NavLink to={`/profile/${item.postedby._id}`} draggable="false">
+                                {(item.postedby.profile_photo && item.postedby.profile_photo != "") ?
+                                  <img src={item.postedby.profile_photo} alt="" className='h-5 rounded-full w-5' />
+                                  :
+                                  <img src={usericon} alt="" className='h-5 rounded-full w-5 border border-gray-400' />
+                                }
+                              </NavLink>}
                             {(item.postedby._id == JSON.parse(localStorage.getItem("user"))._id) ?
                               <NavLink to={`/profile`} draggable="false">
                                 {`@${item.postedby.userName}`}
@@ -351,29 +394,12 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
                     )}
                   </div>
                 </div>
-                <div className='footer flex gap-5 px-1'>
-                  <div className='likes flex flex-col justify-center items-center'>
-                    <div className='cursor-pointer' onClick={() => setShowLikes(true)}>{c_like}</div>
-                    {(like) ? <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
-                      <ThumbUpAltIcon fontSize='medium' />
-                    </div>
-                      : <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
-                        <ThumbUpOffAltIcon fontSize='medium' />
-                      </div>}
-                  </div>
-                  <div className='Dislikes flex flex-col justify-center items-center'>
-                    <div onClick={() => setShowDislikes(true)} className='cursor-pointer'>{c_dislike}</div>
-                    {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
-                      <ThumbDownAltIcon fontSize='medium' />
-                    </div>
-                      : <div className='cursor-pointer' onClick={(e) => dislikePost(post_id)}>
-                        <ThumbDownOffAltIcon fontSize='medium' />
-                      </div>}
-                  </div>
-                </div>
                 <div className="commentinput flex py-4 px-1 gap-1">
                   <textarea className='input_comment' draggable="false" placeholder="Add a comment..." value={comment} onChange={(e) => setComment(e.target.value)}></textarea>
-                  <button className='py-3 post_button hover:font-bold' onClick={() => makeComment(comment, post_id)}>Post</button>
+                  <button className='py-3 post_button hover:font-bold' onClick={() => {
+                    makeComment(comment, post_id)
+                    setShowComments(false)
+                  }}>Post</button>
                 </div>
               </div>
             </div>

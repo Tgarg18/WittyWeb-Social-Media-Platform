@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./EditInfo.css"
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import usericon from '../../../assets/usericon.png'
 import { toast } from "react-toastify";
 
@@ -12,15 +12,16 @@ const EditInfo = () => {
     const [profilePhone, setProfilePhone] = useState("")
 
     const notifyError = () => toast.error('Something went wrong!')
-    const notifySuccessfulChange = () => toast.success('Signup is Successful!')
+    const notifySuccessfulChange = () => toast.success('Profile Updated Successfully!')
+    const navigate = useNavigate()
 
 
     const loadFile = (event) => {
-        var output = document.getElementById('output');
-        output.src = URL.createObjectURL(event.target.files[0]);
+        var output10 = document.getElementById('output10');
+        output10.src = URL.createObjectURL(event.target.files[0]);
 
-        output.onload = function () {
-            URL.revokeObjectURL(output.src)
+        output10.onload = function () {
+            URL.revokeObjectURL(output10.src)
         }
     }
 
@@ -90,12 +91,38 @@ const EditInfo = () => {
                                 .then(data => {
                                     if (data.Status == "Profile Photo Updated Successfully") {
                                         notifySuccessfulChange()
+                                        navigate("/profile")
+                                        window.location.reload()
                                     }
                                     else {
                                         notifyError()
                                     }
                                 })
                         })
+                }
+                else {
+                    notifyError()
+                }
+            })
+    }
+
+    const removePhoto = () => {
+        fetch("http://localhost:5000/removephoto", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+            },
+            body: JSON.stringify({
+                userid: JSON.parse(localStorage.getItem("user"))._id
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.Status == "Profile Photo Removed Successfully") {
+                    notifySuccessfulChange()
+                    navigate("/profile")
+                    window.location.reload()
                 }
                 else {
                     notifyError()
@@ -117,16 +144,14 @@ const EditInfo = () => {
                                 setProfilePhoto(e.target.files[0])
                             }} className='fileinput' /></div>
                             <div className="mt-7">
-                                <button className='editinfo editbutton w-60' onClick={() => removeProfilePic()}>Remove Profile Photo</button>
+                                <button className='editinfo editbutton w-60' onClick={() => removePhoto()}>Remove Profile Photo</button>
                             </div>
                         </div>
-                        {console.log(profilePhoto)}
-                        {console.log(flag)}
                         <div className='qwerty'>
                             {(flag == true) ?
-                                <img src={profilePhoto} id='output' alt="" className={`myimage bg-white`} draggable="false" />
+                                <img src={profilePhoto} id='output10' alt="" className={`myimage2 `} draggable="false" />
                                 :
-                                <img src={URL.createObjectURL(profilePhoto)} id='output' alt="" className={`myimage2 bg-white`} draggable="false" />
+                                <img src={URL.createObjectURL(profilePhoto)} id='output10' alt="" className={`myimage2 `} draggable="false" />
                             }
                         </div>
                     </div>

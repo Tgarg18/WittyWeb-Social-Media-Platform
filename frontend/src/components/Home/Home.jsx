@@ -1,12 +1,10 @@
-import React from 'react'
-import Post from './Post/Post'
+import React, { useState } from 'react'
 import Topbar from './Topbar/Topbar'
 import { Outlet } from 'react-router-dom'
 import './Home.css'
 import { Container } from '@mui/material'
 
 const Home = () => {
-
   return (
     <>
       <div className="theme">

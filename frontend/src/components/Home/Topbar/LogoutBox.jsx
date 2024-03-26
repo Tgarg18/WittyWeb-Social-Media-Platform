@@ -29,6 +29,8 @@ export default function LogoutBox({ setModalOpen }) {
                                 onClick={() => {
                                     setModalOpen(false);
                                     localStorage.removeItem("jwt");
+                                    localStorage.removeItem("user");
+                                    localStorage.removeItem("userphoto");
                                     notifyLogout();
                                     navigate("./signin");
                                 }}

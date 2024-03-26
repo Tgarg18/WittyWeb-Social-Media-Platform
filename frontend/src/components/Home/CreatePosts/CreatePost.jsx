@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import { toast } from "react-toastify";
 import './CreatePost.css'
 import { useNavigate } from "react-router-dom";
 import imageicon from '../../../assets/pic_icon.webp'
+import usericon from '../../../assets/usericon.png'
 
 const CreatePost = () => {
   const [caption, setCaption] = useState("")
   const [image, setImage] = useState("")
+  const [profilephotocreatebar, setProfilephotocreatebar] = useState("")
 
   const navigate = useNavigate()
 
@@ -41,7 +43,7 @@ const CreatePost = () => {
               notifyFields()
               return
             }
-            if(data.error == "You must be logged in"){
+            if (data.error == "You must be logged in") {
               notifysignin()
               navigate("/signin")
               return
@@ -71,13 +73,34 @@ const CreatePost = () => {
       URL.revokeObjectURL(output.src)
     }
   }
+
+  useEffect(() => {
+    fetch("http://localhost:5000/getuserdata", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        userid: JSON.parse(localStorage.getItem("user"))._id
+      })
+    }).then(res => res.json())
+      .then(data => {
+        setProfilephotocreatebar(data[0].profile_photo)
+      })
+  }, [])
+
   return (
     <>
       <div className="createpost text-center flex flex-col gap-8">
         <h1 className='temp text-3xl font-bold'>Create Post</h1>
         <div className='main-div flex flex-col '>
           <div className="card-pic flex gap-2 items-center justify-center">
-            <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' draggable="false" />
+            {(profilephotocreatebar && profilephotocreatebar != "") ?
+              <img src={profilephotocreatebar} alt="" className='userimage h-20 w-20' draggable="false" />
+              :
+              <img src={usericon} alt="" className='userimage h-20 w-20' draggable="false" />
+            }
             <h5>{JSON.parse(localStorage.getItem("user")).name}</h5>
             <textarea className='text' value={caption} onChange={(e) => setCaption(e.target.value)} placeholder='Write your caption here...'></textarea>
           </div>
