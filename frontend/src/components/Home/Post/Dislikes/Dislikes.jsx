@@ -27,7 +27,7 @@ const Dislikes = ({ post_id, setShowDislikes }) => {
       <div className="centered">
         <div className="modal">
           <div className="modalHeader">
-            <h1 className="heading font-bold">Disliked by: </h1>
+            <h1 className="heading font-bold">Disliked by: {dislikedData.length}</h1>
           </div>
           <div className="closeBtn">
             <button onClick={() => setShowDislikes(false)}>

@@ -25,6 +25,7 @@ const userSchema = mongoose.Schema({
     },
     gender: {
         type: String,
+        default: "Not set"
     },
     date: {
         type: Date,
@@ -32,6 +33,7 @@ const userSchema = mongoose.Schema({
     },
     phone_number: {
         type: String,
+        default: ""
     },
     followers: [{
         type: ObjectId,
@@ -40,8 +42,15 @@ const userSchema = mongoose.Schema({
     following: [{
         type: ObjectId,
         ref: "USER"    
-    }]
-
+    }],
+    profile_photo: {
+        type: String,
+        default: ""
+    },
+    bio:{
+        type: String,
+        default: ""
+    }
 
 });
 

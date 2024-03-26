@@ -43,7 +43,9 @@ router.get("/profile", requireLogin, (req, res) => {
                     res.json({ posts, followers,following })
                 })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            res.status(422).json({ error: err });
+        })
 })
 
 router.put("/like", requireLogin, (req, res) => {

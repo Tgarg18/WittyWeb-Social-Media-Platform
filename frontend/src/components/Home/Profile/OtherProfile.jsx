@@ -113,8 +113,8 @@ const OtherProfile = () => {
                             <div className='font-semibold text-xl'>{followers.length}</div>
                             <div>Followers</div>
                         </div>
-                        <div className='following flex flex-col'>
-                            <div className='font-semibold text-xl cursor-pointer' onClick={e => setShowFollowing(true)}>{following.length}</div>
+                        <div className='following flex flex-col cursor-pointer' onClick={e => setShowFollowing(true)}> 
+                            <div className='font-semibold text-xl'>{following.length}</div>
                             <div>Following</div>
                         </div>
                     </div>

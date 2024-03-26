@@ -77,7 +77,7 @@ router.post("/signin", (req, res) => {
                     const token = jwt.sign({ _id: savedUser._id }, jwt_secret)
                     const { _id, name, userName, email } = savedUser
                     res.json({ token, user: { _id, name, userName, email } })
-                    return "Sign In Successfully" 
+                    return "Sign In Successfully"
                 } else {
                     return res.status(422).json({ error: "Invalid password" })
                 }
@@ -86,6 +86,53 @@ router.post("/signin", (req, res) => {
                 console.log(err);
             })
     })
+})
+
+router.post("/changeuserdata", requireLogin, (req, res) => {
+    const { userid, bio, gender, phone_number } = req.body
+    USER.findOne({ _id: userid })
+        .then(user => {
+            user.bio = bio
+            user.gender = gender
+            user.phone_number = phone_number
+            user.save()
+            .then(() => {
+                res.json({ Status: "Data Updated Successfully" })
+            }).catch(error => {
+                res.json(error)
+            })
+        })
+
+})
+
+router.post("/changeuserprofilephoto", requireLogin, (req, res) => {
+    const { userid, profile_pic } = req.body
+    USER.findOne({ _id: userid })
+        .then(user => {
+            user.profile_photo = profile_pic
+            user.save()
+            .then(() => {
+                res.json({ Status: "Profile Photo Updated Successfully" })
+            }).catch(error => {
+                res.json(error)
+            })
+        })
+
+})
+
+router.post("/getuserdata", requireLogin, (req, res) => {
+    USER.find({ _id: req.body.userid })
+        .select("-password")
+        .select("-cpassword")
+        .select("-date")
+        .select("-followers")
+        .select("-following")
+        .then(user => {
+            res.json(user)
+        })
+        .catch(error => {
+            res.json(error)
+        })
 })
 
 module.exports = router;

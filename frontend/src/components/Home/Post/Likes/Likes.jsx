@@ -30,7 +30,7 @@ const Likes = ({ setShowLikes, post_id }) => {
       <div className="centered">
         <div className="modal">
           <div className="modalHeader">
-            <h1 className="heading font-bold">Liked by: </h1>
+            <h1 className="heading font-bold">Liked by: {likedData.length}</h1>
           </div>
           <div className="closeBtn">
             <button onClick={() => setShowLikes(false)}>

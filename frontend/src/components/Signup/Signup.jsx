@@ -13,7 +13,7 @@ const Signup = () => {
   const [password, setPassword] = useState("")
   const [cpassword, setCpassword] = useState("")
 
-  const notifySuccess = () => toast.success('Signup is Successful!')
+  const notifySuccess = () => toast.success('Signup is Successfull!')
   const notifyUserName = () => toast.error('Username already exists. Try a different username!')
   const notifyEmail = () => toast.error('Email already Registered! Try Signing In!')
   const notifyInvalidEmail = () => toast.error('Enter correct Email!')

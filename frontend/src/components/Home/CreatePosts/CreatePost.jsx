@@ -78,7 +78,7 @@ const CreatePost = () => {
         <div className='main-div flex flex-col '>
           <div className="card-pic flex gap-2 items-center justify-center">
             <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="" className='userimage' draggable="false" />
-            <h5>Nancy</h5>
+            <h5>{JSON.parse(localStorage.getItem("user")).name}</h5>
             <textarea className='text' value={caption} onChange={(e) => setCaption(e.target.value)} placeholder='Write your caption here...'></textarea>
           </div>
           <img src={imageicon} alt="" id='output' className='preview' draggable="false" />

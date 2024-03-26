@@ -4,8 +4,8 @@ import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import { useState, useEffect } from 'react';
 import { toast } from "react-toastify";
 import Post from '../Post/Post';
-import { useNavigate } from 'react-router-dom';
-import {UserContext} from '../../../Context/UserContext'
+import { useNavigate, NavLink } from 'react-router-dom';
+import { UserContext } from '../../../Context/UserContext'
 import Followers from './Followers/Followers';
 import Followings from './Followings/Followings';
 
@@ -43,7 +43,7 @@ const Profile = () => {
 
   return (
     <>
-      <UserContext.Provider value={{followers, setShowFollowers, following, setShowFollowing}}>
+      <UserContext.Provider value={{ followers, setShowFollowers, following, setShowFollowing }}>
         <div className="profile text-center flex flex-col gap-8">
           <h1 className='temp text-3xl font-bold'>My Profile</h1>
           <div className='flex items-center justify-center gap-6'>
@@ -72,7 +72,9 @@ const Profile = () => {
           </div>
           <div className="bio">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestiae minima in nisi possimus, tempore sint blanditiis perspiciatis nihil error alias optio aut doloremque sunt mollitia nesciunt natus eum laudantium quae.</div>
           <div className="editinfo">
+            <NavLink to={"/profile/editinfo"} draggable="false">
             <button className='editbutton'>Edit Profile</button>
+            </NavLink>
           </div>
           <div className="post_bar">
             <div className=' text-xl font-bold'>My Posts</div>
@@ -85,7 +87,6 @@ const Profile = () => {
             })}
           </div>
         </div>
-        {/* {showLikes && <Likes post_id={post_id} setShowLikes={setShowLikes} />} */}    
         {showFollowers && <Followers setShowFollowers={setShowFollowers} userid={JSON.parse(localStorage.getItem("user"))._id} />}
         {showFollowing && <Followings setShowFollowing={setShowFollowing} userid={JSON.parse(localStorage.getItem("user"))._id} />}
       </UserContext.Provider>
