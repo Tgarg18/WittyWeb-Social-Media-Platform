@@ -4,6 +4,8 @@ import logo from '../../assets/logo.png'
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from '../navbar/Navbar';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Signup = () => {
 
@@ -12,6 +14,9 @@ const Signup = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [cpassword, setCpassword] = useState("")
+
+  const [showpassword, setShowpassword] = useState(false)
+  const [showcpassword, setShowcpassword] = useState(false)
 
   const notifySuccess = () => toast.success('Signup is Successfull!')
   const notifyUserName = () => toast.error('Username already exists. Try a different username!')
@@ -72,7 +77,7 @@ const Signup = () => {
   }
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="signup flex items-center justify-evenly">
         <div className='form-info rounded-xl flex flex-col items-center px-3'>
           {/* <img src={logo} alt="" className='side object-contain rounded-2xl mb-8' draggable="false" /> */}
@@ -91,11 +96,31 @@ const Signup = () => {
           <div>
             <input className='px-5 py-2 text-lg' type="text" name="fullname" id="fname" placeholder='Enter Full Name' value={name} onChange={(e) => setName(e.target.value)} />
           </div>
-          <div>
-            <input className='px-5 py-2 text-lg' type="password" name="password" id="password" placeholder='Enter Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+          <div className='relative flex items-center'>
+            {(showpassword) ?
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="text" name="password" id="password" placeholder='Enter Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <VisibilityIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowpassword(!showpassword)} />
+              </>
+              :
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="password" name="password" id="password" placeholder='Enter Password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                <VisibilityOffIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowpassword(!showpassword)} />
+              </>
+            }
           </div>
-          <div>
-            <input className='px-5 py-2 text-lg' type="password" name="cpassword" id="cpassword" placeholder='Enter Password to confirm' value={cpassword} onChange={(e) => setCpassword(e.target.value)} />
+          <div className='relative flex items-center'>
+            {(showcpassword) ?
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="text" name="cpassword" id="cpassword" placeholder='Enter Password to confirm' value={cpassword} onChange={(e) => setCpassword(e.target.value)} />
+                <VisibilityIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowcpassword(!showcpassword)} />
+              </>
+              :
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="password" name="cpassword" id="cpassword" placeholder='Enter Password to confirm' value={cpassword} onChange={(e) => setCpassword(e.target.value)} />
+                <VisibilityOffIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowcpassword(!showcpassword)} />
+              </>
+            }
           </div>
           <div>
             <button>

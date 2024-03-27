@@ -1,10 +1,15 @@
 import React, { useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { toast } from "react-toastify";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const ChangePassword = () => {
     const [newpassword, setNewpassword] = useState("")
     const [confirmnewpassword, setConfirmnewpassword] = useState("")
+
+    const [showpassword, setShowpassword] = useState(false)
+    const [showcpassword, setShowcpassword] = useState(false)
 
     const notifyError = () => toast.error('Something went wrong!')
     const notifySame = () => toast.error('Both the passwords must be same!')
@@ -62,11 +67,35 @@ const ChangePassword = () => {
                 <div className='flex flex-col gap-6 min-w-min'>
                     <div className='flex items-center justify-around'>
                         <div className='text-lg font-semibold w-1/5 text-left'>New Password</div>
-                        <input type='password' value={newpassword} onChange={(e) => setNewpassword(e.target.value)} className="bio2 mx-0 w-3/5 py-2 px-1" placeholder='Enter your new Password'></input>
+                        <div className='relative flex items-center w-3/5'>
+                            {(showpassword) ?
+                                <>
+                                    <input type='text' value={newpassword} onChange={(e) => setNewpassword(e.target.value)} className="bio2 mx-0 w-full py-2 px-1 pr-11" placeholder='Enter your new Password' />
+                                    <VisibilityIcon className="absolute right-3" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowpassword(!showpassword)} />
+                                </>
+                                :
+                                <>
+                                    <input type='password' value={newpassword} onChange={(e) => setNewpassword(e.target.value)} className="bio2 mx-0 w-full py-2 pr-11 px-1" placeholder='Enter your new Password' />
+                                    <VisibilityOffIcon className="absolute right-3" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowpassword(!showpassword)} />
+                                </>
+                            }
+                        </div>
                     </div>
                     <div className='flex items-center justify-around'>
                         <div className='text-lg font-semibold w-1/5 text-left'>Confirm Password</div>
-                        <input type='password' value={confirmnewpassword} onChange={(e) => setConfirmnewpassword(e.target.value)} className="bio2 mx-0 w-3/5 py-2 px-1" placeholder='Re-enter your Password'></input>
+                        <div className='relative flex items-center w-3/5'>
+                            {(showcpassword) ?
+                                <>
+                                    <input type='text' value={confirmnewpassword} onChange={(e) => setConfirmnewpassword(e.target.value)} className="bio2 mx-0 w-full py-2 px-1 pr-11" placeholder='Re-enter your Password' />
+                                    <VisibilityIcon className="absolute right-3" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowcpassword(!showcpassword)} />
+                                </>
+                                :
+                                <>
+                                    <input type='password' value={confirmnewpassword} onChange={(e) => setConfirmnewpassword(e.target.value)} className="bio2 mx-0 w-full py-2 px-1 pr-11" placeholder='Re-enter your Password' />
+                                    <VisibilityOffIcon className="absolute right-3" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setShowcpassword(!showcpassword)} />
+                                </>
+                            }
+                        </div>
                     </div>
                     <div className="flex gap-3 justify-center mt-4 px-4">
                         <div className='flex gap-2'>

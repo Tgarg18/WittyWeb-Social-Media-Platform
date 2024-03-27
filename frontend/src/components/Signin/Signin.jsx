@@ -3,8 +3,12 @@ import './Signin.css'
 import logo from '../../assets/logo.png'
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import Navbar from '../navbar/Navbar';
 const Signin = () => {
+
+  const [flagshowpassword, setFlagshowpassword] = useState(false)
 
   const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
@@ -36,7 +40,7 @@ const Signin = () => {
         if (data.user) {
           notifySuccess()
           localStorage.setItem('jwt', data.token)
-          localStorage.setItem('user',JSON.stringify(data.user))
+          localStorage.setItem('user', JSON.stringify(data.user))
           navigate('/')
         }
         else if (data.error == "Invalid username") {
@@ -59,7 +63,7 @@ const Signin = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="signin flex justify-evenly items-center">
         <div className='form-info rounded-xl flex flex-col items-center px-3'>
           {/* <img src={logo} alt="" className='side object-contain rounded-2xl mb-8' draggable="false" /> */}
@@ -75,8 +79,18 @@ const Signin = () => {
           <div>
             <input className='px-5 py-2 text-lg' type="email" name="email" id="email" placeholder='Enter Email' value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
-          <div>
-            <input className='px-5 py-2 text-lg' type="password" name="password" id="password" placeholder='Enter Password' value={passsword} onChange={(e) => setPassword(e.target.value)} />
+          <div className='relative flex items-center'>
+            {(flagshowpassword) ?
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="text" name="password" id="password" placeholder='Enter Password' value={passsword} onChange={(e) => setPassword(e.target.value)} />
+                <VisibilityIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setFlagshowpassword(!flagshowpassword)} />
+              </>
+              :
+              <>
+                <input className='px-5 py-2 text-lg pr-11' type="password" name="password" id="password" placeholder='Enter Password' value={passsword} onChange={(e) => setPassword(e.target.value)} />
+                <VisibilityOffIcon className="absolute right-2" style={{ color: 'white', cursor: 'pointer' }} onClick={() => setFlagshowpassword(!flagshowpassword)} />
+              </>
+            }
           </div>
           <div>
             <button>
