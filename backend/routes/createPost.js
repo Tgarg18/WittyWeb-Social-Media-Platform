@@ -5,7 +5,6 @@ const requireLogin = require("../middlewares/requireLogin");
 const POST = mongoose.model("POST");
 const USER = mongoose.model("USER");
 
-
 router.post("/createPost", requireLogin, (req, res) => {
     const { caption, content_pic } = req.body;
     if (!content_pic && !caption) {

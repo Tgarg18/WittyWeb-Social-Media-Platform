@@ -16,7 +16,15 @@ const PostsPage = () => {
             <div className="container flex flex-col justify-start items-center gap-4 z-0">
                 {postData.map((data) => {
                     return (
-                        <Post url={data.postedby.profile_photo} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={false} />
+                        <Post url={data.postedby.profile_photo} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={(localStorage.getItem('jwt'))?
+                        data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)
+                        :
+                        false
+                } disliked={(localStorage.getItem('jwt'))?
+                        data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)
+                        :
+                        false
+                } count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={false} />
                     )
                 })}
             </div>

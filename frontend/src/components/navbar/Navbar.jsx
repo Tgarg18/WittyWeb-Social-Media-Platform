@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './Navbar.css'
-import logo from '../../assets/logo.gif'
+import logo from '../../assets/logo.png'
 import hamburger from './svg/hamburger.svg'
 import { useState } from 'react'
 

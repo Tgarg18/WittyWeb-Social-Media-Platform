@@ -96,11 +96,11 @@ router.post("/changeuserdata", requireLogin, (req, res) => {
             user.gender = gender
             user.phone_number = phone_number
             user.save()
-            .then(() => {
-                res.json({ Status: "Data Updated Successfully" })
-            }).catch(error => {
-                res.json(error)
-            })
+                .then(() => {
+                    res.json({ Status: "Data Updated Successfully" })
+                }).catch(error => {
+                    res.json(error)
+                })
         })
 
 })
@@ -111,11 +111,11 @@ router.post("/changeuserprofilephoto", requireLogin, (req, res) => {
         .then(user => {
             user.profile_photo = profile_pic
             user.save()
-            .then(() => {
-                res.json({ Status: "Profile Photo Updated Successfully" })
-            }).catch(error => {
-                res.json(error)
-            })
+                .then(() => {
+                    res.json({ Status: "Profile Photo Updated Successfully" })
+                }).catch(error => {
+                    res.json(error)
+                })
         })
 
 })
@@ -135,17 +135,36 @@ router.post("/getuserdata", requireLogin, (req, res) => {
         })
 })
 
-router.post("/removephoto",requireLogin,(req,res) => {
-    USER.findOne({_id: req.body.userid})
-    .then(user => {
-        user.profile_photo = ""
-        user.save()
-        .then(()=>{
-            res.json({Status:"Profile Photo Removed Successfully"})
-        }).catch(error => {
-            res.json(error)
+router.post("/removephoto", requireLogin, (req, res) => {
+    USER.findOne({ _id: req.body.userid })
+        .then(user => {
+            user.profile_photo = ""
+            user.save()
+                .then(() => {
+                    res.json({ Status: "Profile Photo Removed Successfully" })
+                }).catch(error => {
+                    res.json(error)
+                })
         })
-    })
+})
+
+router.post("/changePassword", requireLogin, (req, res) => {
+    const { userid, newpassword, confirmnewpassword } = req.body
+    USER.findOne({ _id: userid })
+        .then(user => {
+
+            bcrypt.hash(newpassword, 10).then((hashedPwd) => {
+                user.password = hashedPwd
+                user.cpassword = hashedPwd
+                user.save()
+                    .then(() => {
+                        res.json({ Status: "Password Changed Successfully" })
+                    }).catch(error => {
+                        res.json(error)
+                    })
+            })
+
+        })
 })
 
 module.exports = router;

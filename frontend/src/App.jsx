@@ -14,6 +14,7 @@ import { useState } from 'react'
 import { LoginContext } from './Context/LoginContext'
 import OtherProfile from './components/Home/Profile/OtherProfile'
 import EditInfo from './components/Home/Profile/EditInfo'
+import ChangePassword from './components/Home/Profile/ChangePassword'
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -26,7 +27,8 @@ function App() {
               <Route path="/" element={<Home />}>
                 <Route path='' element={<PostsPage />} />
                 <Route exact path='profile' element={<Profile />} />
-                <Route path='profile/editinfo' element={<EditInfo />} />
+                <Route exact path='profile/editinfo' element={<EditInfo />} />
+                <Route path='profile/editinfo/changepassword' element={<ChangePassword/>} />
                 <Route path='createpost' element={<CreatePost />} />
                 <Route path='profile/:userid' element={<OtherProfile />} />
               </Route>

@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import { NavLink, json } from "react-router-dom";
-import logo from '../../../assets/logo.gif'
+import { NavLink } from "react-router-dom";
+import logo from '../../../assets/logo.png'
 import './Topbar.css'
 import DarkMode from '../../DarkMode/DarkMode';
 import hamburger from '../../navbar/svg/hamburger.svg';
@@ -27,20 +27,22 @@ const Topbar = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:5000/getuserdata",{
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
-      },
-      body: JSON.stringify({
-        userid: JSON.parse(localStorage.getItem("user"))._id
-      })
-    }).then(res => res.json())
-    .then(data => {
-      setProfilephototopbar(data[0].profile_photo)
-    })
-  },[])
+    if (localStorage.getItem("jwt")) {
+      fetch("http://localhost:5000/getuserdata", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+        },
+        body: JSON.stringify({
+          userid: JSON.parse(localStorage.getItem("user"))._id
+        })
+      }).then(res => res.json())
+        .then(data => {
+          setProfilephototopbar(data[0].profile_photo)
+        })
+    }
+  }, [])
 
   const change = () => {
     setSidebar(!sidebar)
@@ -90,7 +92,7 @@ const Topbar = () => {
               </NavLink>
               <div className='userprofile'>
                 <NavLink to='/profile' style={{ textDecoration: 'none' }} draggable="false">
-                  {(profilephototopbar &&  profilephototopbar!= "") ?
+                  {(profilephototopbar && profilephototopbar != "") ?
                     <img src={profilephototopbar} alt="" className='userimage h-10 w-10' draggable="false" />
                     :
                     <img src={usericon} alt="" className='userimage h-10 w-10' draggable="false" />

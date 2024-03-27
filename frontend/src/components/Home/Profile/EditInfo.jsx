@@ -90,9 +90,9 @@ const EditInfo = () => {
                             }).then(res => res.json())
                                 .then(data => {
                                     if (data.Status == "Profile Photo Updated Successfully") {
-                                        notifySuccessfulChange()
                                         navigate("/profile")
                                         window.location.reload()
+                                        notifySuccessfulChange()
                                     }
                                     else {
                                         notifyError()
@@ -120,9 +120,9 @@ const EditInfo = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.Status == "Profile Photo Removed Successfully") {
-                    notifySuccessfulChange()
                     navigate("/profile")
                     window.location.reload()
+                    notifySuccessfulChange()
                 }
                 else {
                     notifyError()
@@ -172,13 +172,20 @@ const EditInfo = () => {
                         <div className='text-lg font-semibold w-1/5 text-left'>Phone Number</div>
                         <input type='text' value={profilePhone} onChange={(e) => setProfilePhone(e.target.value)} className="bio2 mx-0 w-3/5 py-2 px-1" placeholder='Write you Phone Number'></input>
                     </div>
-                    <div className="flex gap-3 justify-center mt-4">
-                        <NavLink to={"/profile/editinfo"} draggable="false">
-                            <button className='editinfo editbutton w-60' onClick={() => changeDetails()}>Save</button>
-                        </NavLink>
-                        <NavLink to={"/profile"} draggable="false">
-                            <button className='editinfo editbutton w-60 bg-red-600 text-white'>Cancel</button>
-                        </NavLink>
+                    <div className="flex gap-3 justify-between mt-4 px-4">
+                        <div className='flex gap-2'>
+                            <NavLink to={"/profile/editinfo"} draggable="false">
+                                <button className='editinfo editbutton w-60' onClick={() => changeDetails()}>Save</button>
+                            </NavLink>
+                            <NavLink to={"/profile"} draggable="false">
+                                <button className='editinfo editbutton w-60 bg-red-600 text-white hover:bg-red-400'>Cancel</button>
+                            </NavLink>
+                        </div>
+                        <div>
+                            <NavLink to={"/profile/editinfo/changepassword"} draggable="false">
+                                <button className='editinfo editbutton w-60 bg-green-500 text-white hover:bg-green-300'>Change Password</button>
+                            </NavLink>
+                        </div>
                     </div>
                 </div>
             </div>

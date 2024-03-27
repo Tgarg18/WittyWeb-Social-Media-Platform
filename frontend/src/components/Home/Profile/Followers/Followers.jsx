@@ -59,11 +59,11 @@ const Followers = ({ setShowFollowers, userid }) => {
                       </NavLink>}
                     {item._id == JSON.parse(localStorage.getItem("user"))._id ?
                       <NavLink draggable="false" to={`/profile`}>
-                        {item.userName}
+                        {`@${item.userName}`}
                       </NavLink>
                       :
                       <NavLink draggable="false" to={`/profile/${item._id}`}>
-                        {item.userName}
+                        {`@${item.userName}`}
                       </NavLink>}
                   </p>
                 </div>

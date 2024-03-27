@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './Signin.css'
-import logo from '../../assets/logo.gif'
+import logo from '../../assets/logo.png'
 import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Navbar from '../navbar/Navbar';
@@ -61,8 +61,8 @@ const Signin = () => {
     <>
     <Navbar/>
       <div className="signin flex justify-evenly items-center">
-        <div className='form-info rounded-xl flex flex-col items-center'>
-          <img src={logo} alt="" className='side w-2/4 object-contain rounded-2xl mb-8' draggable="false" />
+        <div className='form-info rounded-xl flex flex-col items-center px-3'>
+          {/* <img src={logo} alt="" className='side object-contain rounded-2xl mb-8' draggable="false" /> */}
           <p className='para text-center my-1'>Welcome Back to WittyWeb</p>
           <p className='para text-center my-1'>Was Waiting for you</p>
           <p className='para text-center my-1'>Sign In Now!</p>
