@@ -101,4 +101,16 @@ router.post("/getfollowdata",requireLogin,(req,res)=>{
     })
 })
 
+router.post("/searchusersindatabase",requireLogin,(req,res) => {
+    const searchquery = req.body.query
+    USER.find()
+    .select("-password")
+    .select("-cpassword")
+    .then(result=>{
+        res.json(result)
+    }).catch(err=>{
+        res.status(422).json({error:err})
+    })
+})
+
 module.exports = router

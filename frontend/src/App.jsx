@@ -15,6 +15,7 @@ import { LoginContext } from './Context/LoginContext'
 import OtherProfile from './components/Home/Profile/OtherProfile'
 import EditInfo from './components/Home/Profile/EditInfo'
 import ChangePassword from './components/Home/Profile/ChangePassword'
+import SearchUsers from './components/Home/SearchUsers/SearchUsers'
 
 function App() {
   const [modalOpen, setModalOpen] = useState(false);
@@ -29,6 +30,7 @@ function App() {
                 <Route exact path='profile' element={<Profile />} />
                 <Route exact path='profile/editinfo' element={<EditInfo />} />
                 <Route path='profile/editinfo/changepassword' element={<ChangePassword/>} />
+                <Route path='searchusers' element={<SearchUsers/>} />
                 <Route path='createpost' element={<CreatePost />} />
                 <Route path='profile/:userid' element={<OtherProfile />} />
               </Route>

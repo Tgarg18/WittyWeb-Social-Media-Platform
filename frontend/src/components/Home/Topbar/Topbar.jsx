@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import { NavLink } from "react-router-dom";
 import logo from '../../../assets/logo.png'
 import './Topbar.css'
 import DarkMode from '../../DarkMode/DarkMode';
 import hamburger from '../../navbar/svg/hamburger.svg';
 import { useState } from 'react';
+import { toast } from "react-toastify";
 import { LoginContext } from '../../../Context/LoginContext';
 import usericon from '../../../assets/usericon.png'
 
@@ -16,6 +16,9 @@ const Topbar = () => {
   const [sidebar, setSidebar] = useState(true)
   const { setModalOpen } = useContext(LoginContext)
   const [profilephototopbar, setProfilephototopbar] = useState("")
+
+  const notifySignin = () => toast.error('You must signin first!')
+
   const loginStatus = () => {
     const token = localStorage.getItem("jwt")
     if (token) {
@@ -73,8 +76,15 @@ const Topbar = () => {
           </NavLink>
           <DarkMode />
           <div className="search flex items-center gap-3">
-            <SearchOutlinedIcon />
-            <input type="text" placeholder="Search..." className='input w-48  ' />
+            {(loginStatus())?
+            <NavLink to={'/searchusers'} draggable="false">
+              <h1 className='font-bold'>Search Users</h1>
+            </NavLink>
+            :
+            <NavLink to={'/signin'} draggable="false" onClick={()=> notifySignin()}>
+              <h1 className='font-bold'>Search Users</h1>
+            </NavLink>
+            }
           </div>
         </div>
         <div className="menu right flex items-center gap-4">
