@@ -9,7 +9,7 @@ const requireLogin = require("../middlewares/requireLogin");
 
 router.post("/signup", (req, res) => {
     const userNameRegex = new RegExp("^[A-Za-z][A-Za-z0-9_]{7,29}$")
-    const nameRegex = new RegExp("^[a-zA-Z]+(?:\s[a-zA-Z]+)*$")
+    const nameRegex = new RegExp("^[a-zA-Z'-]+(?:\\s[a-zA-Z'-]+)*$")
     const passwordRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
     const { name, userName, email, password, cpassword } = req.body;
     if (!name || !userName || !email || !password || !cpassword) {
