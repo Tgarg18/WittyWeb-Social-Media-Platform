@@ -41,17 +41,20 @@ const userSchema = mongoose.Schema({
     }],
     following: [{
         type: ObjectId,
-        ref: "USER"    
+        ref: "USER"
     }],
     profile_photo: {
         type: String,
         default: ""
     },
-    bio:{
+    bio: {
         type: String,
         default: ""
-    }
-
+    },
+    saved_post: [{
+        type: ObjectId,
+        ref: "POST"
+    }]
 });
 
 mongoose.model('USER', userSchema);

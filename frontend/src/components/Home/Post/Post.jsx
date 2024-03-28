@@ -6,6 +6,8 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import { NavLink, useNavigate } from 'react-router-dom';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
 import Likes from './Likes/Likes';
 import Dislikes from './Dislikes/Dislikes';
 import { LoginContext } from '../../../Context/LoginContext';
@@ -21,12 +23,72 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
   const [c_like, setC_like] = useState(count_likes)
   const [c_dislike, setC_dislike] = useState(count_dislikes)
   const [c_comments, setC_comments] = useState(count_comments)
-  const [postbyprofilephotostatus, setPostbyprofilephotostatus] = useState(false)
   const temp1 = localStorage.getItem("jwt")
+  const [savepostflag, setSavepostflag] = useState(false)
+
+  const removefromsavedposts = () => {
+    fetch("http://localhost:5000/removesavedpost", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        userid: JSON.parse(localStorage.getItem("user"))._id,
+        post_id: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setSavepostflag(false)
+      })
+  }
+  const addtosavedposts = () => {
+    fetch("http://localhost:5000/addsavedpost", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        userid: JSON.parse(localStorage.getItem("user"))._id,
+        post_id: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setSavepostflag(true)
+      })
+  }
 
   useEffect(() => {
-    if (url && url != "")
-      setPostbyprofilephotostatus(true)
+    fetch("http://localhost:5000/checksavedposts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("jwt")}`
+      },
+      body: JSON.stringify({
+        userid: JSON.parse(localStorage.getItem("user"))._id,
+        post_id: post_id
+      })
+    }).then(res => res.json())
+      .then(result => {
+        if (result.error == "You must be logged in") {
+          notifysignin()
+          navigate('/signin')
+          return
+        }
+        setSavepostflag(result.saved)
+      })
   }, [])
   let status = () => {
     if (temp1) {
@@ -95,6 +157,8 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
   const navigate = useNavigate();
   const notifysignin = () => toast.info('Please sign in first!')
   const notifycomment = () => toast.info("Comment cannot be empty!")
+  const notifyaddedtosaved = () => toast.success("Added to saved posts")
+  const notifyremovefromsaved = () => toast.success("Removed from saved posts")
 
 
   const likePost = (post_id) => {
@@ -260,49 +324,61 @@ const Post = ({ url, username, caption, content, post_id, liked, disliked, count
             <div className='text-left'>{caption}</div>
             <img src={content} alt="" className='postimage' onDoubleClick={(e) => likePost(post_id)} draggable="false" />
           </div>
-          <div className='footer flex gap-5'>
-            <div className='likes flex flex-col justify-center items-center'>
-              {(status()) ?
-                <div className='cursor-pointer text-lg' onClick={() => setShowLikes(true)}>{c_like}</div>
-                :
-                <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
-                  <div className='text-lg'>{c_like}</div>
-                </NavLink>}
-              {(like) ?
-                <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
-                  <ThumbUpAltIcon fontSize='medium' />
+          <div className='footer flex gap-5 justify-between px-4'>
+            <div className=' flex gap-5'>
+              <div className='likes flex flex-col justify-center items-center'>
+                {(status()) ?
+                  <div className='cursor-pointer text-lg' onClick={() => setShowLikes(true)}>{c_like}</div>
+                  :
+                  <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
+                    <div className='text-lg'>{c_like}</div>
+                  </NavLink>}
+                {(like) ?
+                  <div className='cursor-pointer' onClick={(e) => removeLikePost(post_id)}>
+                    <ThumbUpAltIcon fontSize='medium' />
+                  </div>
+                  :
+                  <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
+                    <ThumbUpOffAltIcon fontSize='medium' />
+                  </div>}
+              </div>
+              <div className='Dislikes flex flex-col justify-center items-center'>
+                {(status()) ?
+                  <div onClick={() => setShowDislikes(true)} className='cursor-pointer text-lg'>{c_dislike}</div>
+                  :
+                  <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
+                    <div className='cursor-pointer text-lg'>{c_dislike}</div>
+                  </NavLink>
+                }
+                {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
+                  <ThumbDownAltIcon fontSize='medium' />
                 </div>
-                :
-                <div className='cursor-pointer' onClick={(e) => likePost(post_id)}>
-                  <ThumbUpOffAltIcon fontSize='medium' />
-                </div>}
-            </div>
-            <div className='Dislikes flex flex-col justify-center items-center'>
-              {(status()) ?
-                <div onClick={() => setShowDislikes(true)} className='cursor-pointer text-lg'>{c_dislike}</div>
-                :
-                <NavLink to={'/signin'} onClick={() => notifysignin()} draggable="false">
-                  <div className='cursor-pointer text-lg'>{c_dislike}</div>
-                </NavLink>
-              }
-              {(dislike) ? <div className='cursor-pointer' onClick={(e) => removeDislikePost(post_id)}>
-                <ThumbDownAltIcon fontSize='medium' />
+                  : <div className='cursor-pointer' onClick={(e) => dislikePost(post_id)}>
+                    <ThumbDownOffAltIcon fontSize='medium' />
+                  </div>}
               </div>
-                : <div className='cursor-pointer' onClick={(e) => dislikePost(post_id)}>
-                  <ThumbDownOffAltIcon fontSize='medium' />
-                </div>}
-            </div>
-            <div className='comments flex flex-col justify-center items-center'>
-              <div onClick={() => {
-                getComments(post_id)
-                setShowComments(true)
-              }} className='cursor-pointer text-lg'>{c_comments}</div>
-              <div className='cursor-pointer' onClick={() => {
-                getComments(post_id)
-                setShowComments(true)
-              }}>
-                <ChatBubbleOutlineOutlinedIcon fontSize='medium' />
+              <div className='comments flex flex-col justify-center items-center'>
+                <div onClick={() => {
+                  getComments(post_id)
+                  setShowComments(true)
+                }} className='cursor-pointer text-lg'>{c_comments}</div>
+                <div className='cursor-pointer' onClick={() => {
+                  getComments(post_id)
+                  setShowComments(true)
+                }}>
+                  <ChatBubbleOutlineOutlinedIcon fontSize='medium' />
+                </div>
               </div>
+            </div>
+            <div className='savepost flex items-center justify-center'>
+              {(savepostflag) ?
+                <BookmarkIcon fontSize='large' className='cursor-pointer' onClick={(e) => {
+                  removefromsavedposts()
+                }} />
+                :
+                <BookmarkBorderIcon fontSize='large' className='cursor-pointer' onClick={(e) => {
+                  addtosavedposts()
+                }} />}
             </div>
           </div>
           <div className="commentinput flex py-4 px-2 gap-2">

@@ -76,10 +76,12 @@ const Profile = () => {
               <div className='font-semibold text-xl'>{following.length}</div>
               <div>Following</div>
             </div>
-            <div className="savedposts flex flex-col items-center justify-center">
-              <BookmarksIcon fontSize='small' className='icon' />
-              <div>Saved Posts</div>
-            </div>
+            <NavLink to={"/profile/savedposts"}>
+              <div className="savedposts flex flex-col items-center justify-center">
+                <BookmarksIcon fontSize='small' className='icon' />
+                <div>Saved Posts</div>
+              </div>
+            </NavLink>
           </div>
           <div className="bio">{profileBio}</div>
           <div className="editinfo">
@@ -90,7 +92,7 @@ const Profile = () => {
           <div className="post_bar">
             <div className=' text-xl font-bold'>My Posts</div>
           </div>
-          <div className='post-container gap-4'>
+          <div className='post-container gap-4 flex flex-col-reverse'>
             {pic.map((data) => {
               return (
                 <Post url={profilePhoto} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={true} />

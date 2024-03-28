@@ -13,7 +13,7 @@ const PostsPage = () => {
     }, [])
     return (
         <>
-            <div className="container flex flex-col justify-start items-center gap-4 z-0">
+            <div className="container flex flex-col-reverse justify-start items-center gap-4 z-0">
                 {postData.map((data) => {
                     return (
                         <Post url={data.postedby.profile_photo} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={(localStorage.getItem('jwt'))?

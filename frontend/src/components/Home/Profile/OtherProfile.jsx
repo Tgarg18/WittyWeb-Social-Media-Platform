@@ -148,10 +148,10 @@ const OtherProfile = () => {
                     <div className="post_bar">
                         <div className=' text-xl font-bold'>Posts</div>
                     </div>
-                    <div className='post-container gap-4'>
+                    <div className='post-container gap-4 flex flex-col-reverse'>
                         {post.map((data) => {
                             return (
-                                <Post url={profilePhoto} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={true} />
+                                <Post url={profilePhoto} username={`@${data.postedby.userName}`} caption={data.caption} content={data.image} post_id={data._id} key={data._id} liked={data.likes.includes(JSON.parse(localStorage.getItem("user"))._id)} disliked={data.dislikes.includes(JSON.parse(localStorage.getItem("user"))._id)} count_likes={data.likes.length} count_dislikes={data.dislikes.length} data={data} count_comments={data.comments.length} deleteOption={false} />
                             )
                         })}
                     </div>

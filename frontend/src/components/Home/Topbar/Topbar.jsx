@@ -75,17 +75,19 @@ const Topbar = () => {
             <HomeOutlinedIcon />
           </NavLink>
           <DarkMode />
-          <div className="search flex items-center gap-3">
-            {(loginStatus())?
+          {(loginStatus()) ?
             <NavLink to={'/searchusers'} draggable="false">
-              <h1 className='font-bold'>Search Users</h1>
+              <div className="search flex items-center gap-3">
+                <h1 className='font-bold'>Search Users</h1>
+              </div>
             </NavLink>
             :
-            <NavLink to={'/signin'} draggable="false" onClick={()=> notifySignin()}>
-              <h1 className='font-bold'>Search Users</h1>
+            <NavLink to={'/signin'} draggable="false" onClick={() => notifySignin()}>
+              <div className="search flex items-center gap-3">
+                <h1 className='font-bold'>Search Users</h1>
+              </div>
             </NavLink>
-            }
-          </div>
+          }
         </div>
         <div className="menu right flex items-center gap-4">
           {(loginStatus()) ? <><div className='flex items-center gap-1'>

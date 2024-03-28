@@ -113,4 +113,65 @@ router.post("/searchusersindatabase",requireLogin,(req,res) => {
     })
 })
 
+router.put("/addsavedpost",requireLogin,(req,res) => {
+    const {userid, post_id} = req.body
+    USER.findByIdAndUpdate(userid,{
+        $push: {saved_post: post_id}
+    },{
+        new:true
+    }).then(result=>{
+        res.json(result)
+    }).catch(err=>{
+        res.status(422).json({error:err})
+    })
+})
+
+router.put("/removesavedpost",requireLogin,(req,res) => {
+    const {userid, post_id} = req.body
+    USER.findByIdAndUpdate(userid,{
+        $pull: {saved_post: post_id}
+    },{
+        new:true
+    }).then(result=>{
+        res.json(result)
+    }).catch(err=>{
+        res.status(422).json({error:err})
+    })
+})
+
+router.post("/getsavedposts",requireLogin,(req,res) => {
+    const {userid} = req.body
+    USER.findOne({_id:userid})
+    .populate("saved_post","_id caption image likes dislikes comments postedby")
+    .populate({
+        path: 'saved_post',
+        populate: {
+            path: 'postedby',
+            select: '_id name userName profile_photo'
+        }
+    })
+    .then(result=>{
+        const savedposts = result.saved_post
+        console.log(savedposts);
+        res.json(savedposts)
+    }).catch(err=>{
+        res.status(422).json({error:err})
+    })
+})
+
+router.post("/checksavedposts",requireLogin,(req,res) => {
+    const {userid, post_id} = req.body
+    USER.findOne({_id:userid})
+    .then(result=>{
+        const savedposts = result.saved_post
+        if(savedposts.includes(post_id)){
+            res.json({saved:true})
+        }else{
+            res.json({saved:false})
+        }
+    }).catch(err=>{
+        res.status(422).json({error:err})
+    })
+})
+
 module.exports = router
